@@ -4,7 +4,6 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aima_toolkit"
-version = "0.0.1"
 authors = [
   { name="Emre Arapcic-Uevak", email="emrearapcicuevak@gmail.com" },
 ]
