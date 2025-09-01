@@ -21,3 +21,8 @@ license-files = ["LICEN[CS]E*"]
 [project.urls]
 Homepage = "https://github.com/EmreArapcicUevak/aima-toolkit"
 Issues = "https://github.com/EmreArapcicUevak/aima-toolkit/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.1"
+]
