@@ -1,12 +1,12 @@
 from itertools import repeat
-
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.expand import local_expand as expand
 from typing import Callable, Any
 import random
+from ...node import Node
+from ...expand import expand
+from ...searchproblem import SearchProblem, Heuristic
 
-def hill_climbing_search(problem : Search_Problem, objective_function : Heuristic, sideway_moves_allowed : int = 0) -> Node:
+
+def hill_climbing_search(problem : SearchProblem, objective_function : Heuristic, sideway_moves_allowed : int = 0) -> Node:
     """
     :param problem:
     :param objective_function:

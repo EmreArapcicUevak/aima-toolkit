@@ -1,11 +1,11 @@
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.expand import local_expand
-from Chapter3.SearchProblemPackage.node import Node
-from Sampling.reservoir_sample import reservoir_sample_k
-from Chapter3.SearchProblemPackage.queue import BoundedPriorityQueue
+from ...node import Node
+from ...expand import local_expand
+from ...queue import BoundedPriorityQueue
+from ...searchproblem import SearchProblem, SearchStatus, Heuristic
+from ....Sampling import reservoir_sample_k
 from typing import Union
 
-def local_beam_search(problem : Search_Problem, objective_function: Heuristic, k : int) -> Union[Node, SearchStatus]:
+def local_beam_search(problem : SearchProblem, objective_function: Heuristic, k : int) -> Union[Node, SearchStatus]:
     assert k > 0, "k must be greater than 0"
 
     if problem.IS_GOAL(problem.initial_state):

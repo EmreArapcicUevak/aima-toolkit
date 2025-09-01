@@ -1,6 +1,6 @@
-from Chapter3.uniform_cost_search import uniform_cost_search
-from Chapter3.SearchProblemPackage.search_problem import SearchStatus
-from Problems.romania_search_problem import *
+from src.aima_toolkit.Problems import Romania_Search_Problem, Romania_Search_Problem_Uniform_Cost
+from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.UninformedSearch import uniform_cost_search
+from src.aima_toolkit.SearchProblemPackage import SearchStatus
 
 class TestSmallestCost():
   def test_arad_to_giurgiu(self):

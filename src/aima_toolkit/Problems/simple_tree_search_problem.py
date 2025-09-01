@@ -1,7 +1,5 @@
-
-from Chapter3.SearchProblemPackage.search_problem import Search_Problem
-
-class Tree_Search_Problem(Search_Problem):
+from ..SearchProblemPackage.searchproblem import SearchProblem
+class Tree_Search_Problem(SearchProblem):
     tree = {
        'A' : ['B', 'C'],
        'B' : ['D', 'E'],

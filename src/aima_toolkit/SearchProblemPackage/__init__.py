@@ -1,6 +1,7 @@
-from .expand import local_expand, expand
 from .node import Node
+from .expand import local_expand, expand
 from .queue import PriorityQueue, FIFOQueue, Stack, LIFOQueue, BoundedPriorityQueue
-from .search_problem import Search_Problem, SearchStatus
+from .searchproblem import SearchProblem, SearchStatus, Heuristic
 
-__all__ = ["local_expand", "expand", "Node", "PriorityQueue", "FIFOQueue", "Stack", "LIFOQueue", "BoundedPriorityQueue", "Search_Problem", "SearchStatus"]
+__all__ = ["local_expand", "expand", "Node", "PriorityQueue", "FIFOQueue", "Stack", "LIFOQueue", "BoundedPriorityQueue",
+           "SearchProblem", "SearchStatus", "Heuristic"]

@@ -1,6 +1,6 @@
-from Problems.eight_queen_problem import EightQueenProblem
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter4.LocalSearch.hill_climbing import hill_climbing_search
+from src.aima_toolkit.Problems import EightQueenProblem
+from src.aima_toolkit.SearchProblemPackage import Node
+from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.LocalSearch import hill_climbing_search
 
 def test_hill_climbing():
     initial_state = EightQueenProblem.random_initial_state()

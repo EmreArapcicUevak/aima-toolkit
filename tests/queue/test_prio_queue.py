@@ -1,7 +1,7 @@
-from Chapter3.SearchProblemPackage.queue import Priority_Queue, BoundedPriorityQueue
+from src.aima_toolkit.SearchProblemPackage import PriorityQueue, BoundedPriorityQueue
 
 def test_prio_que():
-  pri_que = Priority_Queue(lambda x: x)
+  pri_que = PriorityQueue(lambda x: x)
 
   pri_que.push(3)
   pri_que.push(6)

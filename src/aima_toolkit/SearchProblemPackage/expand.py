@@ -1,7 +1,7 @@
 from .node import Node
-from .search_problem import Search_Problem
+from .searchproblem import SearchProblem
 
-def expand(problem : Search_Problem, node : Node):
+def expand(problem : SearchProblem, node : Node):
   state = node.state
 
   for action in problem.ACTIONS(state):
@@ -11,7 +11,7 @@ def expand(problem : Search_Problem, node : Node):
 
     yield Node(new_state, parent=node, path_cost= cost)
 
-def local_expand(problem: Search_Problem, node : Node):
+def local_expand(problem: SearchProblem, node : Node):
     """
     Takes a node and expands it locally, not saving the path and only showing nodes that are local
     :param problem:

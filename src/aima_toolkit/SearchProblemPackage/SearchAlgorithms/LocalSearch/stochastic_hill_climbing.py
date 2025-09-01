@@ -1,11 +1,9 @@
-from .hill_climbing import hill_climbing_search
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.expand import local_expand
-from Chapter3.SearchProblemPackage.node import Node
+from . import hill_climbing_search
+from ... import SearchProblem, Heuristic, SearchStatus, local_expand, Node
 from typing import Callable, Union, List, Generator, Any, Tuple
 import random
 
-def first_choice_hill_climbing_search(problem : Search_Problem, objective_function: Heuristic) -> Union[Node, SearchStatus]:
+def first_choice_hill_climbing_search(problem : SearchProblem, objective_function: Heuristic) -> Union[Node, SearchStatus]:
     current_node : Node = Node(problem.initial_state)
     current_value = objective_function(current_node)
     keep_going = True
@@ -30,7 +28,7 @@ def first_choice_hill_climbing_search(problem : Search_Problem, objective_functi
 
     return current_node
 
-def random_restart_hill_climbing_search(problem: Search_Problem, objective_function: Heuristic, sideway_moves_allowed : int, random_state_generator : Generator[Any, None, None]) -> Tuple[SearchStatus, Node]:
+def random_restart_hill_climbing_search(problem: SearchProblem, objective_function: Heuristic, sideway_moves_allowed : int, random_state_generator : Generator[Any, None, None]) -> Tuple[SearchStatus, Node]:
     best_node : Node = Node(problem.initial_state)
     best_value = objective_function(best_node)
 

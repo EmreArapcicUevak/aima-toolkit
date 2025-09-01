@@ -1,10 +1,9 @@
+from ...node import Node
+from ...expand import expand
+from ...queue import Stack
+from ...searchproblem import SearchProblem, SearchStatus
 
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.queue import Stack
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.expand import expand
-
-def depth_first_search(problem : Search_Problem):
+def depth_first_search(problem : SearchProblem):
   node = Node(problem.initial_state)
   if problem.IS_GOAL(node.state):
     return node

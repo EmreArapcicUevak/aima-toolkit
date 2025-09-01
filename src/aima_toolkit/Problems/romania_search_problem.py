@@ -1,6 +1,6 @@
-from Chapter3.SearchProblemPackage.search_problem import Search_Problem
+from ..SearchProblemPackage.searchproblem import SearchProblem
 
-class Romania_Search_Problem(Search_Problem):
+class Romania_Search_Problem(SearchProblem):
     romania_graph_map = {
         'Arad': {'Zerind': 75, 'Sibiu': 140, 'Timisoara': 118},
         'Zerind': {'Arad': 75, 'Oradea': 71},
@@ -37,7 +37,7 @@ class Romania_Search_Problem(Search_Problem):
     def IS_GOAL(self, state):
         return state == self.goal_state
 
-class Romania_Search_Problem_Uniform_Cost(Search_Problem):
+class Romania_Search_Problem_Uniform_Cost(SearchProblem):
     romania_graph_map = {
         'Arad': ['Zerind', 'Sibiu', 'Timisoara'],
         'Zerind': ['Arad', 'Oradea'],

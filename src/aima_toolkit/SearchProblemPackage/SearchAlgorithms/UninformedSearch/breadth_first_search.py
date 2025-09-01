@@ -1,15 +1,14 @@
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.queue import FIFO_Queue
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.expand import expand
+from ...node import Node
+from ...expand import expand
+from ...queue import FIFOQueue
+from ...searchproblem import SearchProblem, SearchStatus
 
-
-def breadth_first_search(problem: Search_Problem):
+def breadth_first_search(problem: SearchProblem):
     node = Node(problem.initial_state)
     if problem.IS_GOAL(node.state):
         return node
 
-    frontier = FIFO_Queue()
+    frontier = FIFOQueue()
     frontier.push(node)
 
     reached = [problem.initial_state]

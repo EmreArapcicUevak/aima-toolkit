@@ -1,14 +1,14 @@
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.expand import expand
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.queue import Priority_Queue
+from ...node import Node
+from ...expand import expand
+from ...queue import PriorityQueue
+from ...searchproblem import SearchProblem, SearchStatus
 
-def uniform_cost_search(problem : Search_Problem):
+def uniform_cost_search(problem : SearchProblem):
   node = Node(problem.initial_state)
   if problem.IS_GOAL(node.state):
     return node
   
-  frontier = Priority_Queue(lambda node: node.path_cost)
+  frontier = PriorityQueue(lambda node: node.path_cost)
   frontier.push(node)
 
   reached = {problem.initial_state: node}

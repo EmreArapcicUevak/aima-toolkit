@@ -1,8 +1,7 @@
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.node import Node
+from ..SearchProblemPackage import Node, SearchProblem, SearchStatus
 import random
 
-class EightQueenProblem(Search_Problem):
+class EightQueenProblem(SearchProblem):
   def __init__(self, initial_state : str):
     assert len(initial_state) == 8
     assert set(initial_state).issubset(set('12345678'))

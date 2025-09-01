@@ -1,7 +1,5 @@
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.expand import local_expand
-from Sampling.reservoir_sample import reservoir_sample
+from ... import SearchProblem, Node, local_expand
+from ....Sampling import reservoir_sample
 from typing import Callable
 import itertools, math, random
 
@@ -11,7 +9,7 @@ def compute_probability(delta_E : float, T : float) -> float:
 
     return probability
 
-def simulated_annealing(problem : Search_Problem, heuristic : Callable[[Node], int | float], scheduler : Callable[[int], float], stopping_temperature : float = 1e-8):
+def simulated_annealing(problem : SearchProblem, heuristic : Callable[[Node], int | float], scheduler : Callable[[int], float], stopping_temperature : float = 1e-8):
     assert 0 < stopping_temperature , "Stopping temperature must be bigger then 0"
 
     current_node = Node(problem.initial_state)

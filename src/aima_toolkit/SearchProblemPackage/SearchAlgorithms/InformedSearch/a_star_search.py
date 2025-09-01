@@ -1,12 +1,12 @@
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.queue import Priority_Queue
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.expand import expand
+from ...searchproblem import *
+from ...queue import PriorityQueue
+from ...node import Node
+from ...expand import expand
 
-def a_star_search(problem: Search_Problem, heuristic):
+def a_star_search(problem: SearchProblem, heuristic):
   root_node = Node(problem.initial_state)
 
-  frontier = Priority_Queue(evaluation_func=lambda node: node.path_cost + heuristic(node))
+  frontier = PriorityQueue(evaluation_func=lambda node: node.path_cost + heuristic(node))
   reached = {root_node.state: root_node}
 
   frontier.push(root_node)

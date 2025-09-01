@@ -1,9 +1,9 @@
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.queue import Stack
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.expand import expand
+from ...node import Node
+from ...expand import expand
+from ...queue import Stack
+from ...searchproblem import SearchProblem, SearchStatus
 
-def depth_limited_search(problem : Search_Problem, limit : int):
+def depth_limited_search(problem : SearchProblem, limit : int):
   frontier = Stack()
   frontier.push(Node(problem.initial_state))
 

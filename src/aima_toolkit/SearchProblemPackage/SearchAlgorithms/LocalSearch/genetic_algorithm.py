@@ -1,9 +1,10 @@
 import typing, random, math
 from typing import Any
 
-from Chapter3.SearchProblemPackage.search_problem import *
-from Chapter3.SearchProblemPackage.node import Node
-from Chapter3.SearchProblemPackage.queue import BoundedPriorityQueue
+from ...node import Node
+from ...expand import expand
+from ...queue import BoundedPriorityQueue
+from ...searchproblem import SearchProblem, SearchStatus
 
 def softmax(z : typing.List[typing.Union[float, int]]) -> typing.Tuple[float | typing.Any, ...]:
     exp_value: typing.List[float] = [math.exp(z_i) for z_i in z]
@@ -30,7 +31,7 @@ def mutate_child(child : str, mutation_rate: float, alphabet : typing.Tuple[str]
 
     return "".join(child_chars)
 
-def genetic_algorithm_search(problem: Search_Problem, initial_generation : typing.List[str], population_size : int, fitness_score : typing.Callable[[str], typing.Union[float, int]], mutation_rate : float, alphabet : typing.Tuple[str]) -> typing.List[str]:
+def genetic_algorithm_search(problem: SearchProblem, initial_generation : typing.List[str], population_size : int, fitness_score : typing.Callable[[str], typing.Union[float, int]], mutation_rate : float, alphabet : typing.Tuple[str]) -> typing.List[str]:
     assert population_size > 0
     assert len(initial_generation) == population_size
     assert  0 <= mutation_rate <= 1
