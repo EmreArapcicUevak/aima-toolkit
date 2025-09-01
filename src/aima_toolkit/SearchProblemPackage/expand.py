@@ -9,7 +9,7 @@ def expand(problem : SearchProblem, node : Node):
 
     cost = node.path_cost + problem.ACTION_COST(state = state, action = action, new_state = new_state)
 
-    yield Node(new_state, parent=node, path_cost= cost)
+    yield Node(new_state, parent=node, path_cost= cost, action=action)
 
 def local_expand(problem: SearchProblem, node : Node):
     """
