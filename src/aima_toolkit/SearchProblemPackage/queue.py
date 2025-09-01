@@ -19,25 +19,25 @@ class Queue():
           yield self.pop()
   
 
-class FIFO_Queue(Queue):
+class FIFOQueue(Queue):
   def push(self, value):
     self.que.append(value)
 
   def pop(self):
     return self.que.pop(0)
 
-class Priority_Queue_Node():
+class PriorityQueueNode():
     def __init__(self, value, priority):
         self.value = value
         self.priority = priority
 
-class Priority_Queue(Queue):
+class PriorityQueue(Queue):
   def __init__(self, evaluation_func):
     super().__init__()
     self.evaluation_func = evaluation_func # Returns true if element a has a higher prio then b
 
   def push(self, value):
-    new_node = Priority_Queue_Node(value, self.evaluation_func(value))
+    new_node = PriorityQueueNode(value, self.evaluation_func(value))
     for index, que_node in enumerate(self.que):
       if new_node.priority < que_node.priority:
         self.que.insert(index,new_node)
@@ -62,7 +62,7 @@ class Priority_Queue(Queue):
             break
     return out
 
-class BoundedPriorityQueue(Priority_Queue):
+class BoundedPriorityQueue(PriorityQueue):
     def __init__(self, evaluation_func, limit : int):
         assert limit > 0, "Limit must be positive"
         super().__init__(evaluation_func)
@@ -75,7 +75,7 @@ class BoundedPriorityQueue(Priority_Queue):
         if len(self.que) > self.limit:
             self.que = self.que[:self.limit]
 
-class LIFO_Queue(Queue):
+class LIFOQueue(Queue):
   def push(self, value):
     self.que.append(value)
 
@@ -83,4 +83,4 @@ class LIFO_Queue(Queue):
     return self.que.pop()
 
 # Alias
-Stack = LIFO_Queue
+Stack = LIFOQueue
