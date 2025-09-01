@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling >= 1.26"]
+requires = ["hatchling >= 1.26", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
@@ -21,6 +21,13 @@ dynamic = ["version"]
 [project.urls]
 Homepage = "https://github.com/EmreArapcicUevak/aima-toolkit"
 Issues = "https://github.com/EmreArapcicUevak/aima-toolkit/issues"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+# do not append +<local> metadata (git sha/date) so PyPI accepts it
+local_scheme = "no-local-version"
 
 [project.optional-dependencies]
 dev = [
