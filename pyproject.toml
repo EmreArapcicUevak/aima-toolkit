@@ -28,6 +28,7 @@ source = "vcs"
 [tool.hatch.version.raw-options]
 # do not append +<local> metadata (git sha/date) so PyPI accepts it
 local_scheme = "no-local-version"
+version_scheme = "no-guess-dev"
 
 [project.optional-dependencies]
 dev = [
