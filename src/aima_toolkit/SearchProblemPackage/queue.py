@@ -84,3 +84,5 @@ class LIFOQueue(Queue):
 
 # Alias
 Stack = LIFOQueue
+
+__all__ = ['Stack', 'FIFOQueue', 'PriorityQueue', 'BoundedPriorityQueue', 'LIFOQueue']
