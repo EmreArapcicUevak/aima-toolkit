@@ -2,11 +2,13 @@ from .node import Node
 from .searchproblem import SearchProblem
 
 def expand(problem : SearchProblem, node : Node):
-  state : Node = node.state
+  state = node.state
 
   for action in problem.ACTIONS(state):
-    new_state = problem.RESULTS(state=state, action=action)
+    new_state = list(problem.RESULTS(state=state, action=action))
+    assert len(new_state) == 1, "classical expand used on non deterministic problem"
 
+    new_state = new_state[0]
     cost = node.path_cost + problem.ACTION_COST(state = state, action = action, new_state = new_state)
 
     yield Node(new_state, parent=node, path_cost= cost, action=action)
@@ -21,6 +23,8 @@ def local_expand(problem: SearchProblem, node : Node):
     state = node.state
 
     for action in problem.ACTIONS(state):
-        new_state = problem.RESULTS(state=state, action=action)
+      new_state = list( problem.RESULTS( state=state, action=action ) )
+      assert len( new_state ) == 1, "classical local expand used on non deterministic problem"
+      new_state = new_state[ 0 ]
 
-        yield Node(new_state)
+      yield Node(new_state)
