@@ -2,7 +2,7 @@ from .node import Node
 from .searchproblem import SearchProblem
 
 def expand(problem : SearchProblem, node : Node):
-  state = node.state
+  state : Node = node.state
 
   for action in problem.ACTIONS(state):
     new_state = problem.RESULTS(state=state, action=action)
