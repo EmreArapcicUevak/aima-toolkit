@@ -39,8 +39,8 @@ class Node[S,A]:
 OrNode = Node
 
 class AndNode[S,A]:
-  def __init__(self, *or_nodes : Node[S,A]) -> None:
-    self.or_nodes : tuple[Node[S,A], ...] = or_nodes
+  def __init__(self, or_nodes : tuple[Node[S,A]]) -> None:
+    self.or_nodes : tuple[Node[S,A]] = or_nodes
     assert len(self.or_nodes) > 0, "AND node must have at least one OR node"
 
   def __len__(self) -> int:
