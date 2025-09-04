@@ -14,8 +14,8 @@ class Tree_Search_Problem(SearchProblem):
         super().__init__(initial_state)
         self.goal_state = goal_state
 
-    def ACTIONS(self, states):
-        return Tree_Search_Problem.tree[states].copy()
+    def ACTIONS(self, state):
+        return Tree_Search_Problem.tree[state].copy()
 
     def RESULTS(self, state, action):
         if action not in Tree_Search_Problem.tree[state]:

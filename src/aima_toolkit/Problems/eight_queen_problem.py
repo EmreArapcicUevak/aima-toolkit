@@ -8,11 +8,11 @@ class EightQueenProblem(SearchProblem):
 
     super().__init__(initial_state)
 
-  def ACTIONS(self, states):
+  def ACTIONS(self, state):
     all_states = set("12345678")
     actions = []
 
-    for index, queen_position in enumerate(states):
+    for index, queen_position in enumerate(state):
       for legal_state in all_states.difference(set(queen_position)):
         actions.append(f"{index}_{legal_state}")
 

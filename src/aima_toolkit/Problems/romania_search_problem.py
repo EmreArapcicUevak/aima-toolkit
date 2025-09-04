@@ -22,8 +22,8 @@ class Romania_Search_Problem(SearchProblem):
         super().__init__(initial_state)
         self.goal_state = goal_state
 
-    def ACTIONS(self, states):
-        return Romania_Search_Problem.romania_graph_map[states].keys()
+    def ACTIONS(self, state):
+        return Romania_Search_Problem.romania_graph_map[state].keys()
 
     def RESULTS(self, state, action):
         if Romania_Search_Problem.romania_graph_map[state].get(action) is None:
@@ -59,8 +59,8 @@ class Romania_Search_Problem_Uniform_Cost(SearchProblem):
         super().__init__(initial_state)
         self.goal_state = goal_state
 
-    def ACTIONS(self, states):
-        return Romania_Search_Problem_Uniform_Cost.romania_graph_map[states].copy()
+    def ACTIONS(self, state):
+        return Romania_Search_Problem_Uniform_Cost.romania_graph_map[state].copy()
 
     def RESULTS(self, state, action):
         if action not in Romania_Search_Problem_Uniform_Cost.romania_graph_map[state]:
