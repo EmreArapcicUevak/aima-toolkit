@@ -49,6 +49,16 @@ class AndNode[S,A]:
   def __repr__(self) -> str:
     return f"AndNode({self.or_nodes})"
 
+  def __eq__(self, value: Self) -> bool:
+    if len(self.or_nodes) != len(value.or_nodes):
+      return False
+    else:
+      for node in self.or_nodes:
+        if node not in value.or_nodes:
+          return False
+
+    return True
+
   def max_eval_node(self, heuristic_function : Callable[[Node[S,A]], float]) -> tuple[Node[S,A], float]:
     assert len(self.or_nodes) > 0
     max_node = self.or_nodes[0]
