@@ -1,11 +1,11 @@
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Informed.and_or_star_search import and_or_star_search
+from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Uninformed.nondeterministic_uniform_cost_search import nondeterministic_uniform_cost_search
 from src.aima_toolkit.SearchProblemPackage import SearchStatus
 from src.aima_toolkit.Problems.erratic_vacuum_world import ErraticVacuumWorld
 from pprint import pprint
 
-def test_and_or_star_search():
+def test_nondeterministic_uniform_cost_search():
   problem = ErraticVacuumWorld(initial_state=1)
-  status, result = and_or_star_search(problem, heuristic=ErraticVacuumWorld.clean_square_heuristic)
+  status, result = nondeterministic_uniform_cost_search(problem)
   assert status == SearchStatus.SUCCESS
   assert result == {
     1 : {
