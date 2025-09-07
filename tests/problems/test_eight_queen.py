@@ -13,7 +13,7 @@ def test_action():
       expected[queen] = new_pos
       expected = "".join(expected)
 
-      assert problem.RESULTS(test_state, action) == expected
+      assert problem.RESULTS(test_state, action) == { expected }
 
 def test_heuristic():
   test_state = "11111111"
