@@ -46,3 +46,5 @@ def logarith_scheduler(T0 : float) -> Callable[[int], float]:
     assert T0 > 0, "T0 must be greater than 0"
 
     return lambda k: T0 / math.log(1 + k)
+
+__all__ = ["simulated_annealing", "linear_scheduler", "geometric_scheduler", "logarith_scheduler"]

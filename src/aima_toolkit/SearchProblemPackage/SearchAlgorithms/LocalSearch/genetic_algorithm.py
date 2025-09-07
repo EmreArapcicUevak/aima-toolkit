@@ -68,3 +68,7 @@ def genetic_algorithm_search(problem: SearchProblem, initial_generation : typing
             best_generation.push(mutate_child(p, mutation_rate, alphabet))
 
         population = list(best_generation)
+
+__all__ = [
+    "genetic_algorithm_search",
+]
