@@ -1,7 +1,7 @@
 from enum import Enum, auto
 from typing import Callable, Union, TypeAlias, Iterable
 from .node import Node
-
+from abc import abstractmethod, ABC
 Heuristic: TypeAlias = Callable[[Node], Union[int, float]]
 
 class SearchStatus(Enum):
@@ -9,10 +9,11 @@ class SearchStatus(Enum):
     CUTOFF = auto()
     SUCCESS = auto()
 
-class SearchProblem[S, A]:
+class SearchProblem[S, A](ABC):
   def __init__(self, initial_state : S):
     self.initial_state = initial_state
 
+  @abstractmethod
   def ACTIONS(self, state: S) -> set[A] | Iterable[A]:
     """
     Return a set of actions, or iterable over the actions, that can be performed on this search problem.
@@ -24,8 +25,9 @@ class SearchProblem[S, A]:
         Set of actions that can be done in the given state.
     """
     raise NotImplementedError("This method should be overridden by subclasses")
-  
-  def RESULTS(self, state : S, action : A) -> set[S] | Iterable[S]:
+
+  @abstractmethod
+  def RESULTS(self, state : S, action : A) -> set[S]:
     """
     Takes a state and an action done on that state and returns the set of all possible states, or an iterable over the actions
     Args:
@@ -36,7 +38,8 @@ class SearchProblem[S, A]:
       A set of actions that can be done in the given state, or an iterable over the set of actions.
     """
     raise NotImplementedError("This method should be overridden by subclasses")
-  
+
+  @abstractmethod
   def ACTION_COST(self, state : S, action : A, new_state : S) -> float:
     """
 
@@ -49,7 +52,8 @@ class SearchProblem[S, A]:
       The cost of getting from the starting state to the new state whilst doing the given action
     """
     raise NotImplementedError("This method should be overridden by subclasses")
-  
+
+  @abstractmethod
   def IS_GOAL(self, state : S) -> bool:
     """
 
