@@ -1,14 +1,15 @@
 from .node import *
 from .searchproblem import SearchProblem
+from typing import Iterator, Callable
+from collections.abc import Iterable
 
 def expand(problem : SearchProblem, node : Node):
   state = node.state
 
   for action in problem.ACTIONS(state):
-    new_state = list(problem.RESULTS(state=state, action=action))
-    assert len(new_state) == 1, "classical expand used on non deterministic problem"
+    new_state = problem.RESULTS(state=state, action=action)
+    assert not isinstance( new_state, Iterable ) or isinstance( new_state, (str, bytes) ), "Classical expand expect deterministic actions"
 
-    new_state = new_state[0]
     cost = node.path_cost + problem.ACTION_COST(state = state, action = action, new_state = new_state)
 
     yield Node(new_state, parent=node, path_cost= cost, action=action)
@@ -29,16 +30,16 @@ def local_expand(problem: SearchProblem, node : Node):
 
       yield Node(new_state)
 
-def nondeterministic_expand(problem: SearchProblem, node : Node):
+def nondeterministic_expand[S,A](problem: SearchProblem[S,A], node : OrNode[S,A], heuristic : Callable[[OrNode], float] = lambda or_node: 0) -> Iterator[AndNode[S,A]]:
   state = node.state
   for action in problem.ACTIONS(state):
     new_belief_state = problem.RESULTS(state=state, action=action)
-    or_nodes : list[Node] = []
+    and_node = AndNode( parent=node, action=action, heuristic=heuristic )
 
     for new_state in new_belief_state:
       cost = node.path_cost + problem.ACTION_COST( state=state, action=action, new_state=new_state)
-      or_nodes.append( OrNode(new_state, action=action, path_cost=cost, parent=node) )
+      and_node.add_or_node( OrNode(new_state, action=action, path_cost=cost, parent=node) )
 
-    yield  AndNode(tuple(or_nodes))
+    yield and_node
 
 __all__ = ['expand', 'local_expand', 'nondeterministic_expand']
