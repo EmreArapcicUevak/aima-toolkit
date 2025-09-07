@@ -22,12 +22,12 @@ class EightQueenProblem(SearchProblem):
   def ACTION_COST(self, state, action, new_state):
     return 1
   
-  def RESULTS(self, state, action : str):
+  def RESULTS(self, state, action : str) -> set[str]:
     queen_index, new_pos = EightQueenProblem._action_to_data(action=action)
     new_state = list(state)
     new_state[queen_index] = new_pos
 
-    return "".join(new_state)
+    return { "".join(new_state) }
   
   def IS_GOAL(self, state : str):
     return EightQueenProblem.heuristic(Node(state)) == 0

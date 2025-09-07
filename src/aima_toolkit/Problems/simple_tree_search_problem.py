@@ -21,7 +21,7 @@ class Tree_Search_Problem(SearchProblem):
         if action not in Tree_Search_Problem.tree[state]:
             raise ValueError(f"Action {action} is not valid for state {state}.")
 
-        return action
+        return { action }
 
     def ACTION_COST(self, state, action, new_state):
         return 1

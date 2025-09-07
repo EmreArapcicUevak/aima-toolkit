@@ -29,7 +29,7 @@ class Romania_Search_Problem(SearchProblem):
         if Romania_Search_Problem.romania_graph_map[state].get(action) is None:
             raise ValueError(f"Action {action} is not valid for state {state}.")
 
-        return action
+        return { action }
 
     def ACTION_COST(self, state, action, new_state):
         return Romania_Search_Problem.romania_graph_map[state][action]
@@ -62,14 +62,14 @@ class Romania_Search_Problem_Uniform_Cost(SearchProblem):
     def ACTIONS(self, state):
         return Romania_Search_Problem_Uniform_Cost.romania_graph_map[state].copy()
 
-    def RESULTS(self, state, action):
+    def RESULTS(self, state, action) -> set[str]:
         if action not in Romania_Search_Problem_Uniform_Cost.romania_graph_map[state]:
             raise ValueError(f"Action {action} is not valid for state {state}.")
 
-        return action
+        return { action }
 
-    def ACTION_COST(self, state, action, new_state):
+    def ACTION_COST(self, state, action, new_state) -> float:
         return 1
 
-    def IS_GOAL(self, state):
+    def IS_GOAL(self, state) -> bool:
         return state == self.goal_state
