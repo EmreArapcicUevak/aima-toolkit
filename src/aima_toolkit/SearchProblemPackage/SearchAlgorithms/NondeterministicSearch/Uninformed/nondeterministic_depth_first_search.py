@@ -1,10 +1,13 @@
-from .... import SearchProblem, SearchStatus, AndNode, OrNode
-def nondeterministic_depth_first_search[S,A](problem : SearchProblem[S,A]):
+from .... import SearchProblem, SearchStatus
+
+def nondeterministic_depth_first_search[S,A](problem : SearchProblem[S,A]) -> SearchStatus | dict:
   return _or_search(problem, problem.initial_state, [])
 
-def _or_search[S,A](problem : SearchProblem[S,A], state : S, path : list):
+def _or_search[S,A](problem : SearchProblem[S,A], state : S, path : list) -> SearchStatus | dict:
   if problem.IS_GOAL(state):
-    return []
+    return {
+      state: {}
+    }
   elif state in path:
     return SearchStatus.FAILURE
 
@@ -20,16 +23,24 @@ def _or_search[S,A](problem : SearchProblem[S,A], state : S, path : list):
     )
 
     if plan != SearchStatus.FAILURE:
-      return [action] + plan
+      return {
+        state : {
+          "action" : action,
+          "outcomes" : plan
+        }
+      }
 
   return SearchStatus.FAILURE
-def _and_search[S,A](problem : SearchProblem[S,A], states : set[S], path : list[S]):
-  plan : dict[S,A] = dict()
+
+def _and_search[S,A](problem : SearchProblem[S,A], states : set[S], path : list[S]) -> SearchStatus | dict:
+  plan = dict()
   for state in states:
-    plan_i = _or_search(problem, state, path + [state])
+    plan_i = _or_search(problem, state, path)
     if plan_i == SearchStatus.FAILURE:
       return SearchStatus.FAILURE
     else:
-      plan[state] = plan_i
+      plan = plan | plan_i
 
   return plan
+
+__all__ = ['nondeterministic_depth_first_search']
