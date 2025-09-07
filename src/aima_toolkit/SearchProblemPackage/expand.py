@@ -8,8 +8,6 @@ def expand(problem : SearchProblem, node : Node):
 
   for action in problem.ACTIONS(state):
     new_state = problem.RESULTS(state=state, action=action)
-    assert not isinstance( new_state, Iterable ) or isinstance( new_state, (str, bytes) ), "Classical expand expect deterministic actions"
-
     cost = node.path_cost + problem.ACTION_COST(state = state, action = action, new_state = new_state)
 
     yield Node(new_state, parent=node, path_cost= cost, action=action)
