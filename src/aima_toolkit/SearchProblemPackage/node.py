@@ -1,12 +1,13 @@
 from typing import Self, Callable
 
 class Node[S,A]:
-  def __init__(self, state : S, parent : Self | None = None, path_cost : float | int = 0, action : A | None = None):
+  def __init__(self, state : S, parent : Self | None | "AndNode[S,A]" = None, path_cost : float | int = 0, action : A | None = None):
     self.state = state
     self.parent = parent
     self.path_cost = path_cost
     self.depth = 0 if parent is None else parent.depth + 1
     self.action = action
+    self.f : float = 0
 
   def __str__(self) -> str:
     return self.__repr__()
@@ -39,9 +40,15 @@ class Node[S,A]:
 OrNode = Node
 
 class AndNode[S,A]:
-  def __init__(self, or_nodes : tuple[Node[S,A]]) -> None:
-    self.or_nodes : tuple[Node[S,A]] = or_nodes
-    assert len(self.or_nodes) > 0, "AND node must have at least one OR node"
+  def __init__(self,parent : OrNode, action : A, or_nodes : tuple[Node[S,A]] | None = None, heuristic : Callable[[OrNode], float] = lambda or_node: 0) -> None:
+    self.or_nodes : tuple[OrNode, ...] = tuple() if or_nodes is None else or_nodes
+    self.parent = parent
+    self.action = action
+
+    self.heuristic = heuristic
+
+    self.f : float = 0
+    self.eval_score : float = 0 if len(self.or_nodes) == 0 else self.get_eval_score()
 
   def __len__(self) -> int:
     return len(self.or_nodes)
@@ -58,6 +65,25 @@ class AndNode[S,A]:
           return False
 
     return True
+
+  def add_or_node(self, node : OrNode[S,A]) -> None:
+    self.or_nodes += (node,)
+
+    new_eval_score = node.path_cost + self.heuristic(node)
+    self.eval_score = new_eval_score if new_eval_score > self.eval_score else self.eval_score
+
+  def get_eval_score(self) -> float:
+    assert len( self.or_nodes ) > 0, "Cannot get an evaluation score for an empty node"
+    max_eval_score = self.or_nodes[0].path_cost + self.heuristic(self.or_nodes[0])
+
+    for or_node in self.or_nodes:
+      max_eval_score = max(max_eval_score, or_node.path_cost + self.heuristic(or_node))
+
+    return max_eval_score
+
+  def change_heuristic(self, new_heuristic : Callable[[OrNode], float]) -> None:
+    self.heuristic = new_heuristic
+    self.eval_score = self.get_eval_score()
 
   def max_eval_node(self, heuristic_function : Callable[[Node[S,A]], float]) -> tuple[Node[S,A], float]:
     assert len(self.or_nodes) > 0
