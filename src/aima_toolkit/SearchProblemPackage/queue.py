@@ -1,13 +1,15 @@
+import typing
+
 class Queue():
   def __init__(self) -> None:
     self.que = []
 
   def pop(self):
     raise NotImplementedError("This method should be overridden by subclasses")
-  
+
   def push(self, value):
     raise NotImplementedError("This method should be overridden by subclasses")
-  
+
   def remove(self, value):
     self.que.remove(value)
 
@@ -17,7 +19,7 @@ class Queue():
   def __iter__(self):
       while len(self.que) > 0:
           yield self.pop()
-  
+
 
 class FIFOQueue(Queue):
   def push(self, value):
@@ -26,27 +28,34 @@ class FIFOQueue(Queue):
   def pop(self):
     return self.que.pop(0)
 
-class PriorityQueueNode():
-    def __init__(self, value, priority):
-        self.value = value
+class PriorityQueueNode[V]:
+    def __init__(self, value : V, priority : float):
+        self.value : V = value
         self.priority = priority
 
-class PriorityQueue(Queue):
-  def __init__(self, evaluation_func):
+class PriorityQueue[V](Queue):
+  def __init__(self, evaluation_func : typing.Callable[[V], float]):
     super().__init__()
-    self.evaluation_func = evaluation_func # Returns true if element a has a higher prio then b
+    self.que : list[PriorityQueueNode] = []
+    self.evaluation_func = evaluation_func # Returns an evaluation score of a value
 
-  def push(self, value):
+  def push(self, value : V) -> None:
     new_node = PriorityQueueNode(value, self.evaluation_func(value))
     for index, que_node in enumerate(self.que):
       if new_node.priority < que_node.priority:
         self.que.insert(index,new_node)
         return
-    
+
     self.que.append(new_node)
 
-  def pop(self):
+  def pop(self) -> V:
     return self.que.pop(0).value
+
+  def best_eval_peak(self, compared_to : float) -> float:
+    for p_node in self.que:
+      if p_node.priority >= compared_to:
+        return p_node.priority
+    return compared_to
 
   def best(self):
     """Return all items tied for the best (lowest) score."""
