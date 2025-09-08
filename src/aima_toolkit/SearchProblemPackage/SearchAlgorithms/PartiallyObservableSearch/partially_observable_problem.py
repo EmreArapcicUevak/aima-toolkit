@@ -62,13 +62,3 @@ class PartiallyObservableProblem[S,A,P](SearchProblem, ABC):
     )
 
     return max(costs, default=float("inf"))
-
-  def EVALUATION_SCORE(self, belief_state : frozenset[S], action : A, new_belief_state : frozenset[S], heuristic : Callable[[S], float]) -> float:
-    evaluation_score = (
-        self.ACTION_COSTp(state=state, action=action, new_state=new_state) + heuristic(state)
-        for state in belief_state
-        for new_state in self.PREDICT(state=state, action=action)
-        if new_state in new_belief_state
-    )
-
-    return max(evaluation_score, default=float("inf"))

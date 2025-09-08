@@ -53,13 +53,3 @@ class ErraticVacuumWorld(SearchProblem[int, str]):
 
   def IS_GOAL(self, state : int) -> bool:
     return state in [7, 8]
-
-  @staticmethod
-  def clean_square_heuristic(node : OrNode[int, str]) -> float:
-    state = node.state
-    if state in [1,2]:
-      return 2
-    elif state in [3,4,5,6]:
-      return 1
-    else:
-      return 0

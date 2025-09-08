@@ -53,8 +53,7 @@ class VacuumWorld(SearchProblem[int, str]):
     return state in [7, 8]
 
   @staticmethod
-  def clean_square_heuristic(node : OrNode[int, str]) -> float:
-    state = node.state
+  def clean_square_heuristic(state : int) -> float:
     if state in [1,2]:
       return 2
     elif state in [3,4,5,6]:

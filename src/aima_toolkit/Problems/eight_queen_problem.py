@@ -30,7 +30,7 @@ class EightQueenProblem(SearchProblem):
     return { "".join(new_state) }
   
   def IS_GOAL(self, state : str):
-    return EightQueenProblem.heuristic(Node(state)) == 0
+    return EightQueenProblem.heuristic(state) == 0
   
   @staticmethod
   def _action_to_data(action : str) -> tuple[int, str]:
@@ -38,9 +38,7 @@ class EightQueenProblem(SearchProblem):
     return int(action_values[0]), action_values[1]
 
   @staticmethod
-  def heuristic(node : Node) -> int:
-    state = node.state
-
+  def heuristic(state : str) -> float:
     queen_position = [int(pos) for pos in list(state)]
     h = 0
 

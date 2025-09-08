@@ -18,5 +18,5 @@ def test_action():
 def test_heuristic():
   test_state = "11111111"
 
-  assert EightQueenProblem.heuristic(Node("11111111")) == 7+6+5+4+3+2+1
-  assert EightQueenProblem.heuristic(Node("83742516")) == 1
+  assert EightQueenProblem.heuristic("11111111") == 7+6+5+4+3+2+1
+  assert EightQueenProblem.heuristic("83742516") == 1

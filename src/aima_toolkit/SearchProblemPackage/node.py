@@ -40,7 +40,7 @@ class Node[S,A]:
 OrNode = Node
 
 class AndNode[S,A]:
-  def __init__(self,parent : OrNode, action : A, or_nodes : tuple[Node[S,A]] | None = None, heuristic : Callable[[OrNode], float] = lambda or_node: 0) -> None:
+  def __init__(self,parent : OrNode, action : A, or_nodes : tuple[Node[S,A]] | None = None, heuristic : Callable[[S], float] = lambda or_node: 0) -> None:
     self.or_nodes : tuple[OrNode, ...] = tuple() if or_nodes is None else or_nodes
     self.parent = parent
     self.action = action
@@ -69,7 +69,7 @@ class AndNode[S,A]:
   def add_or_node(self, node : OrNode[S,A]) -> None:
     self.or_nodes += (node,)
 
-    new_eval_score = node.path_cost + self.heuristic(node)
+    new_eval_score = node.path_cost + self.heuristic(node.state)
     self.eval_score = new_eval_score if new_eval_score > self.eval_score else self.eval_score
 
   def get_eval_score(self) -> float:
@@ -77,11 +77,11 @@ class AndNode[S,A]:
     max_eval_score = self.or_nodes[0].path_cost + self.heuristic(self.or_nodes[0])
 
     for or_node in self.or_nodes:
-      max_eval_score = max(max_eval_score, or_node.path_cost + self.heuristic(or_node))
+      max_eval_score = max(max_eval_score, or_node.path_cost + self.heuristic(or_node.state))
 
     return max_eval_score
 
-  def change_heuristic(self, new_heuristic : Callable[[OrNode], float]) -> None:
+  def change_heuristic(self, new_heuristic : Callable[[S], float]) -> None:
     self.heuristic = new_heuristic
     self.eval_score = self.get_eval_score()
 
