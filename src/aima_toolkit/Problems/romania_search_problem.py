@@ -59,14 +59,14 @@ class Romania_Search_Problem_Uniform_Cost(SearchProblem):
         super().__init__(initial_state)
         self.goal_state = goal_state
 
-    def ACTIONS(self, state):
-        return Romania_Search_Problem_Uniform_Cost.romania_graph_map[state].copy()
+    def ACTIONS(self, state) -> frozenset[str]:
+        return frozenset(Romania_Search_Problem_Uniform_Cost.romania_graph_map[state].copy())
 
-    def RESULTS(self, state, action) -> set[str]:
+    def RESULTS(self, state, action) -> frozenset[str]:
         if action not in Romania_Search_Problem_Uniform_Cost.romania_graph_map[state]:
             raise ValueError(f"Action {action} is not valid for state {state}.")
 
-        return { action }
+        return frozenset(action)
 
     def ACTION_COST(self, state, action, new_state) -> float:
         return 1

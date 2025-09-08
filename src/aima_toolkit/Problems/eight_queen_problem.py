@@ -1,14 +1,14 @@
 from ..SearchProblemPackage import Node, SearchProblem, SearchStatus
 import random
 
-class EightQueenProblem(SearchProblem):
+class EightQueenProblem(SearchProblem[str,str]):
   def __init__(self, initial_state : str):
     assert len(initial_state) == 8
     assert set(initial_state).issubset(set('12345678'))
 
     super().__init__(initial_state)
 
-  def ACTIONS(self, state):
+  def ACTIONS(self, state) -> frozenset[str]:
     all_states = set("12345678")
     actions = []
 
@@ -16,18 +16,18 @@ class EightQueenProblem(SearchProblem):
       for legal_state in all_states.difference(set(queen_position)):
         actions.append(f"{index}_{legal_state}")
 
-    return actions
+    return frozenset(actions)
 
 
-  def ACTION_COST(self, state, action, new_state):
+  def ACTION_COST(self, state, action, new_state) -> float:
     return 1
   
-  def RESULTS(self, state, action : str) -> set[str]:
+  def RESULTS(self, state, action : str) -> frozenset[str]:
     queen_index, new_pos = EightQueenProblem._action_to_data(action=action)
     new_state = list(state)
     new_state[queen_index] = new_pos
 
-    return { "".join(new_state) }
+    return frozenset({"".join(new_state)})
   
   def IS_GOAL(self, state : str):
     return EightQueenProblem.heuristic(state) == 0
