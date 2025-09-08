@@ -2,7 +2,7 @@ from enum import Enum, auto
 from typing import Callable, Union, TypeAlias, Iterable
 from .node import Node
 from abc import abstractmethod, ABC
-Heuristic: TypeAlias = Callable[[Node], Union[int, float]]
+type Heuristic[S] = Callable[[S], float]
 
 class SearchStatus(Enum):
     FAILURE = auto()
@@ -14,7 +14,7 @@ class SearchProblem[S, A](ABC):
     self.initial_state = initial_state
 
   @abstractmethod
-  def ACTIONS(self, state: S) -> set[A] | Iterable[A]:
+  def ACTIONS(self, state: S) -> frozenset[A] | Iterable[A]:
     """
     Return a set of actions, or iterable over the actions, that can be performed on this search problem.
 
@@ -27,7 +27,7 @@ class SearchProblem[S, A](ABC):
     raise NotImplementedError("This method should be overridden by subclasses")
 
   @abstractmethod
-  def RESULTS(self, state : S, action : A) -> set[S]:
+  def RESULTS(self, state : S, action : A) -> frozenset[S]:
     """
     Takes a state and an action done on that state and returns the set of all possible states, or an iterable over the actions
     Args:
