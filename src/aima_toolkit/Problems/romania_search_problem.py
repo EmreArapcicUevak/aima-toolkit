@@ -66,7 +66,7 @@ class Romania_Search_Problem_Uniform_Cost(SearchProblem):
         if action not in Romania_Search_Problem_Uniform_Cost.romania_graph_map[state]:
             raise ValueError(f"Action {action} is not valid for state {state}.")
 
-        return frozenset(action)
+        return frozenset( [ action ] )
 
     def ACTION_COST(self, state, action, new_state) -> float:
         return 1
