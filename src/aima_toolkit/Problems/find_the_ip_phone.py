@@ -164,3 +164,5 @@ class FindTheIPPhone(OnlineSearchProblem[Switch, str]):
       return 1.0
 
     return h
+
+__all__ = ["FindTheIPPhone"]
