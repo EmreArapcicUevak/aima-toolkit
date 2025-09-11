@@ -6,7 +6,7 @@ class OnlineSearchProblem[S,A](ABC):
     self.initial_state : S = initial_state
 
   @abstractmethod
-  def ACTIONS(self, state : S) -> set[A]:
+  def ACTIONS(self, state : S) -> frozenset[A]:
     pass
 
   @abstractmethod
