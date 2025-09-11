@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from typing import Callable, Union, TypeAlias, Iterable
+from typing import Callable, Union, TypeAlias, Iterable, Any
 from .node import Node
 from abc import abstractmethod, ABC
 type Heuristic[S] = Callable[[S], float]
@@ -65,4 +65,24 @@ class SearchProblem[S, A](ABC):
     """
     raise NotImplementedError("This method should be overridden by subclasses")
 
-__all__ = ['SearchProblem', 'Heuristic', 'SearchStatus']
+def is_cycle[S](node : Node[S, Any], reached : dict[S, Node[S, Any]]) -> bool:
+  state : S = node.state
+
+  if isinstance(state, frozenset): # We are working with belief states
+    for possible_states in reached.keys():
+      if state.issuperset(possible_states) and node.path_cost > reached[possible_states].path_cost:
+        print(f"Prunning {state} because of {possible_states}")
+        return True
+
+    return False
+  else:
+    return state in reached.keys() and node.path_cost > reached[state].path_cost
+
+def simple_is_cycle[S](node : Node[S, Any], reached : list[Node[S, Any]]) -> bool:
+  state : S = node.state
+  if isinstance(state, frozenset):
+    return any( state.issuperset(reached_node.state) for reached_node in reached)
+  else:
+    return node in reached
+
+__all__ = ['SearchProblem', 'Heuristic', 'SearchStatus', "is_cycle", "simple_is_cycle"]
