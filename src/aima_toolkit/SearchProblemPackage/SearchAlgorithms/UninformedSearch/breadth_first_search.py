@@ -1,3 +1,4 @@
+from ... import simple_is_cycle
 from ...node import Node
 from ...expand import expand
 from ...queue import FIFOQueue
@@ -19,7 +20,7 @@ def breadth_first_search(problem: SearchProblem):
         for child in expand(problem=problem, node=node):
             if problem.IS_GOAL(child.state):
                 return child
-            elif child.state not in reached:
+            elif simple_is_cycle(child, reached):
                 reached.append(child.state)
                 frontier.push(child)
 
