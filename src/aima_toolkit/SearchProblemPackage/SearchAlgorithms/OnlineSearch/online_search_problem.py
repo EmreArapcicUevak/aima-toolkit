@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from enum import Enum, auto
+
 class OnlineSearchProblem[S,A](ABC):
   def __init__(self, initial_state : S):
     self.initial_state : S = initial_state
@@ -14,3 +16,7 @@ class OnlineSearchProblem[S,A](ABC):
   @abstractmethod
   def IS_GOAL(self, state : S) -> bool:
     pass
+
+
+class OnlineSearchAction(Enum):
+  STOP = auto()
