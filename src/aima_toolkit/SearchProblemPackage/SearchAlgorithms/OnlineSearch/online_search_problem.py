@@ -1,9 +1,7 @@
 from abc import ABC, abstractmethod
 class OnlineSearchProblem[S,A](ABC):
-  def __init__(self):
-    self.result : dict[S,A] = {}
-    self.s : S | None = None
-    self.a : A | None = None
+  def __init__(self, initial_state : S):
+    self.initial_state : S = initial_state
 
   @abstractmethod
   def ACTIONS(self, state : S) -> set[A]:
