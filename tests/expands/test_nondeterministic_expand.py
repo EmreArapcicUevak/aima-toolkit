@@ -26,6 +26,9 @@ class MockupProblem(SearchProblem):
     else:
       return 1
 
+  def IS_GOAL(self, state : str) -> bool:
+    return True
+
 
 def test_nondeterministic_expand():
   mock_problem = MockupProblem()

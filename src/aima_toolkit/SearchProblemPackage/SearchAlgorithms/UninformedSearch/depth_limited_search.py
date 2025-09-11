@@ -3,16 +3,16 @@ from ...expand import expand
 from ...queue import Stack
 from ...searchproblem import SearchProblem, SearchStatus
 
-def depth_limited_search(problem : SearchProblem, limit : int):
+def depth_limited_search(problem : SearchProblem, limit : int) -> tuple[SearchStatus, Node | None]:
   frontier = Stack()
   frontier.push(Node(problem.initial_state))
 
-  result = SearchStatus.FAILURE
+  result : SearchStatus = SearchStatus.FAILURE
   while len(frontier) > 0:
     node = frontier.pop()
 
     if problem.IS_GOAL(node.state):
-      return node
+      return SearchStatus.SUCCESS, node
 
     if node.depth < limit:
       for child in expand(problem=problem, node=node):
@@ -20,4 +20,4 @@ def depth_limited_search(problem : SearchProblem, limit : int):
     else:
       result = SearchStatus.CUTOFF
 
-  return result
+  return result, None

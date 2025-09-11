@@ -1,19 +1,20 @@
 from enum import Enum, auto
-from typing import Callable, Union, TypeAlias, Iterable
+from typing import Callable, Union, TypeAlias, Iterable, Any
 from .node import Node
-
-Heuristic: TypeAlias = Callable[[Node], Union[int, float]]
+from abc import abstractmethod, ABC
+type Heuristic[S] = Callable[[S], float]
 
 class SearchStatus(Enum):
     FAILURE = auto()
     CUTOFF = auto()
     SUCCESS = auto()
 
-class SearchProblem[S, A]:
+class SearchProblem[S, A](ABC):
   def __init__(self, initial_state : S):
     self.initial_state = initial_state
 
-  def ACTIONS(self, state: S) -> set[A] | Iterable[A]:
+  @abstractmethod
+  def ACTIONS(self, state: S) -> frozenset[A] | Iterable[A]:
     """
     Return a set of actions, or iterable over the actions, that can be performed on this search problem.
 
@@ -24,8 +25,9 @@ class SearchProblem[S, A]:
         Set of actions that can be done in the given state.
     """
     raise NotImplementedError("This method should be overridden by subclasses")
-  
-  def RESULTS(self, state : S, action : A) -> set[S] | Iterable[S]:
+
+  @abstractmethod
+  def RESULTS(self, state : S, action : A) -> frozenset[S]:
     """
     Takes a state and an action done on that state and returns the set of all possible states, or an iterable over the actions
     Args:
@@ -36,7 +38,8 @@ class SearchProblem[S, A]:
       A set of actions that can be done in the given state, or an iterable over the set of actions.
     """
     raise NotImplementedError("This method should be overridden by subclasses")
-  
+
+  @abstractmethod
   def ACTION_COST(self, state : S, action : A, new_state : S) -> float:
     """
 
@@ -49,7 +52,8 @@ class SearchProblem[S, A]:
       The cost of getting from the starting state to the new state whilst doing the given action
     """
     raise NotImplementedError("This method should be overridden by subclasses")
-  
+
+  @abstractmethod
   def IS_GOAL(self, state : S) -> bool:
     """
 
@@ -61,4 +65,24 @@ class SearchProblem[S, A]:
     """
     raise NotImplementedError("This method should be overridden by subclasses")
 
-__all__ = ['SearchProblem', 'Heuristic', 'SearchStatus']
+def is_cycle[S](node : Node[S, Any], reached : dict[S, Node[S, Any]]) -> bool:
+  state : S = node.state
+
+  if isinstance(state, frozenset): # We are working with belief states
+    for possible_states in reached.keys():
+      if state.issuperset(possible_states) and node.path_cost > reached[possible_states].path_cost:
+        print(f"Prunning {state} because of {possible_states}")
+        return True
+
+    return False
+  else:
+    return state in reached.keys() and node.path_cost > reached[state].path_cost
+
+def simple_is_cycle[S](node : Node[S, Any], reached : list[Node[S, Any]]) -> bool:
+  state : S = node.state
+  if isinstance(state, frozenset):
+    return any( state.issuperset(reached_node.state) for reached_node in reached)
+  else:
+    return node in reached
+
+__all__ = ['SearchProblem', 'Heuristic', 'SearchStatus', "is_cycle", "simple_is_cycle"]

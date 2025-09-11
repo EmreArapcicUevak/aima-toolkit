@@ -6,7 +6,7 @@ from ...searchproblem import SearchProblem, SearchStatus
 def depth_first_search(problem : SearchProblem):
   node = Node(problem.initial_state)
   if problem.IS_GOAL(node.state):
-    return node
+    return SearchStatus.SUCCESS, node
 
   frontier = Stack()
   frontier.push(node)
@@ -16,8 +16,8 @@ def depth_first_search(problem : SearchProblem):
 
     for child in expand(problem=problem, node=node):
       if problem.IS_GOAL(child.state):
-        return child
+        return SearchStatus.SUCCESS, child
       else:
         frontier.push(child)
 
-  return SearchStatus.FAILURE
+  return SearchStatus.FAILURE, None

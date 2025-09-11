@@ -15,13 +15,13 @@ class Tree_Search_Problem(SearchProblem):
         self.goal_state = goal_state
 
     def ACTIONS(self, state):
-        return Tree_Search_Problem.tree[state].copy()
+        return frozenset(Tree_Search_Problem.tree[state].copy())
 
     def RESULTS(self, state, action):
         if action not in Tree_Search_Problem.tree[state]:
             raise ValueError(f"Action {action} is not valid for state {state}.")
 
-        return action
+        return frozenset(action)
 
     def ACTION_COST(self, state, action, new_state):
         return 1

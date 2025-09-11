@@ -3,11 +3,14 @@ from .searchproblem import SearchProblem
 from typing import Iterator, Callable
 from collections.abc import Iterable
 
-def expand(problem : SearchProblem, node : Node):
+def expand[S,A](problem : SearchProblem[S,A], node : Node[S,A]):
   state = node.state
 
   for action in problem.ACTIONS(state):
-    new_state = problem.RESULTS(state=state, action=action)
+    new_state = set(problem.RESULTS(state=state, action=action))
+    assert len(new_state) == 1, "Tried to use deterministic expand on nondeterministic problem"
+
+    new_state = new_state.pop()
     cost = node.path_cost + problem.ACTION_COST(state = state, action = action, new_state = new_state)
 
     yield Node(new_state, parent=node, path_cost= cost, action=action)
