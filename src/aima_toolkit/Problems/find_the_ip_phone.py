@@ -15,6 +15,15 @@ class Switch:
   def __eq__(self, other):
     return isinstance(other, Switch) and self.ip_address == other.ip_address
 
+  def __hash__(self):
+    return hash(self.ip_address)
+
+  def __str__(self):
+    return self.ip_address
+
+  def __repr__(self):
+    return f"Switch({self.ip_address})"
+
 topology = {
   "127.0.0.1" : Switch( #S1
     "127.0.0.1",
@@ -162,6 +171,16 @@ class FindTheIPPhone(OnlineSearchProblem[Switch, str]):
         if neighbor["sysName"] in solution_sys_name:
           return 0.0
       return 1.0
+
+    return h
+
+  @staticmethod
+  def get_action_value_heuristic(goal_mac_address : str) -> Callable[[Switch, str], float]:
+    def h(state : Switch, action : str) -> float:
+      best_guess_interface = next( interface for mac_add, interface in learned_mac_address[state.ip_address].items() if mac_add == goal_mac_address )
+      ip_to_best_guess = next ( best_neighbor["IPv4"] for best_neighbor in state.cdp_neighbors if best_neighbor["local_interface"] == best_guess_interface )
+
+      return 0.0 if action == ip_to_best_guess else 1.0
 
     return h
 
