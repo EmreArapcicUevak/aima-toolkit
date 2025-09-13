@@ -1,1 +1,1 @@
-from online_search_problem import *
+from .online_search_problem import *
