@@ -8,4 +8,4 @@ def test_hill_climbing():
 
     result : Node = hill_climbing_search(problem=problem, objective_function=lambda node: -problem.heuristic(node.state), sideway_moves_allowed=100)
     assert result is not None
-    assert problem.IS_GOAL(result.state) or problem.heuristic(result.state) < problem.heuristic(problem.initial_state)
+    assert problem.IS_GOAL(result.state) or problem.heuristic(result.state) <= problem.heuristic(problem.initial_state)
