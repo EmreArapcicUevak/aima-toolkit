@@ -1,3 +1,5 @@
+from numpy.ma.core import argmin
+
 from .online_agent import OnlineAgent
 from .. import OnlineSearchProblem, OnlineSearchAction
 from .... import Heuristic
@@ -19,7 +21,8 @@ class LearnRealTimeAStarAgent[S,A](OnlineAgent[S,A]):
 
     if self.s is not None:
       self.result[self.s, self.a] = self.s_prime
-      self.H[self.s] = min(self.LRTA_COST(
+      self.H[self.s] = min(
+        self.LRTA_COST(
           self.s,
           a,
           self.result.get( (self.s, a) )
@@ -28,7 +31,11 @@ class LearnRealTimeAStarAgent[S,A](OnlineAgent[S,A]):
       )
 
     b: list[A] = list(self.problem.ACTIONS(self.s_prime))
-    action_index = np.argmin( self.LRTA_COST( self.s_prime, a, self.result.get( (self.s_prime, a) ) ) for a in b )
+    costs : list[float] = list()
+    for action in b:
+      costs.append( self.LRTA_COST( self.s_prime, action, self.result.get( (self.s_prime, action) ) ) )
+    action_index = argmin( costs )
+
     self.s = self.s_prime
     self.a = b[action_index]
     return self.a
