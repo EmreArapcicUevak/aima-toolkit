@@ -44,11 +44,11 @@ def test_DFS_agent():
 def test_LRTA_agent():
   for start_ip in {"127.0.0.1", "127.0.0.2", "127.0.0.3", "127.0.0.4", "127.0.0.5", "127.0.0.6"}:
     check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-05"), topology["127.0.0.6"])
-    #check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-04"), topology["127.0.0.5"])
-    #check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-03"), topology["127.0.0.3"])
-    #check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-02"), topology["127.0.0.2"])
-    #check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-01"), topology["127.0.0.2"])
-    #check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-00"), topology["127.0.0.1"])
+    check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-04"), topology["127.0.0.5"])
+    check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-03"), topology["127.0.0.3"])
+    check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-02"), topology["127.0.0.2"])
+    check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-01"), topology["127.0.0.2"])
+    check_result_LRTA(FindTheIPPhone(topology[start_ip], "11-11-11-11-11-00"), topology["127.0.0.1"])
 
 
 def test_DFS_with_heuristic():
