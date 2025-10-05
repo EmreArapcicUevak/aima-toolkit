@@ -2,7 +2,7 @@ from ..constraint_satisfaction_problem import ConstraintSatisfactionProblem, Con
 from ...SearchProblemPackage.queue import FIFOQueue
 
 
-def node_constraint_propagation(csp: ConstraintSatisfactionProblem) -> bool:
+def node_constraint_propagation(csp: ConstraintSatisfactionProblem, remove_constraints_after : bool = True) -> bool:
   constraints = FIFOQueue()
 
   for constraint in csp.constraints:
@@ -19,4 +19,6 @@ def node_constraint_propagation(csp: ConstraintSatisfactionProblem) -> bool:
     if len(csp.domains[variable]) == 0:
       return False
 
+  if remove_constraints_after:
+    csp.constraints = [constraint for constraint in csp.constraints if len(constraint.variables) != 1]
   return True
