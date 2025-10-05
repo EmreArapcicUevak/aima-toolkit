@@ -34,3 +34,6 @@ version_scheme = "no-guess-dev"
 dev = [
     "pytest>=8.4.1"
 ]
+
+[tool.pytest.ini_options]
+testpaths = [ "tests" ]
