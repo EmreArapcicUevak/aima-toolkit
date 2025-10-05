@@ -2,7 +2,7 @@ from ..constraint_satisfaction_problem import ConstraintSatisfactionProblem, Con
 from ...SearchProblemPackage.queue import FIFOQueue
 
 
-def node_constraint_propagation(csp: ConstraintSatisfactionProblem):
+def node_constraint_propagation(csp: ConstraintSatisfactionProblem) -> bool:
   constraints = FIFOQueue()
 
   for constraint in csp.constraints:
@@ -12,11 +12,11 @@ def node_constraint_propagation(csp: ConstraintSatisfactionProblem):
   while len(constraints) > 0:
     constraint = constraints.pop()
     variable = constraint.variables[0]
+
     variable_domain = csp.domains[variable]
+    csp.domains[variable] = {value for value in variable_domain if constraint.satisfied({variable : value})}
 
-    inconsistent_values = set()
-    for value in variable_domain:
-      if not constraint.satisfied({variable : value}):
-        inconsistent_values.add(value)
+    if len(csp.domains[variable]) == 0:
+      return False
 
-    csp.domains[variable] = variable_domain.difference(inconsistent_values)
+  return True
