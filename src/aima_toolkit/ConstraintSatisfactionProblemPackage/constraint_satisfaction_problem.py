@@ -10,7 +10,7 @@ ConstraintFunction = Callable[[VariableAssignment], bool]
 
 class Constraint:
     def __init__(self, variables: list[Variable], constraint_func: ConstraintFunction):
-        self.variables = list(variables)
+        self.variables = tuple(variables)
         self.constraint_func = constraint_func
 
     def satisfied(self, assignment: VariableAssignment) -> bool:
@@ -25,12 +25,16 @@ class Constraint:
         # partial assignment -> cannot claim violation
         return True
 
+    def __eq__(self, other):
+      return isinstance(other, Constraint) and set(self.variables) == set(other.variables) and self.constraint_func == other.constraint_func
+
 class ConstraintSatisfactionProblem:
-    def __init__(self, variables: list[Variable], domains: dict[Variable, list[Any]]):
-        self.variables: list[Variable] = list(variables)
+    def __init__(self, variables: list[Variable], domains: dict[Variable, set[Any]]):
+        self.variables: list[Variable] = list(set(variables))
         # deep copy so callers can't accidentally mutate internal domains
-        self.domains: dict[Variable, list[Any]] = copy.deepcopy(domains)
-        self.constraints: dict[Variable, list[Constraint]] = defaultdict(list)
+        self.domains: dict[Variable, set[Any]] = copy.deepcopy(domains)
+        self.constraints: list[Constraint] = []
+        self.var_to_constraints: dict[Variable, list[Constraint ] ] = defaultdict( list )
 
         # sanity checks
         for var in self.domains.keys():
@@ -42,27 +46,29 @@ class ConstraintSatisfactionProblem:
 
         # ensure every variable has an entry in constraints dict
         for v in self.variables:
-            self.constraints.setdefault(v, [])
+            self.var_to_constraints.setdefault( v, [] )
 
-    def add_variable(self, variable: Variable, domain: list[Any]):
+    def add_variable(self, variable: Variable, domain: set[Any]):
         assert variable not in self.variables, f"Variable {variable} is already present"
         self.variables.append(variable)
         # copy domain to avoid aliasing problems
-        self.domains[variable] = list(domain)
-        self.constraints.setdefault(variable, [])
+        self.domains[variable] = copy.deepcopy(domain)
+        self.var_to_constraints.setdefault( variable, [] )
 
     def add_constraint(self, constraint: Constraint):
-        for var in constraint.variables:
-            assert var in self.variables, f"Variable {var} is not a valid variable"
-            self.constraints[var].append(constraint)
+      if constraint in self.constraints: return
 
-    def is_consistent(self, var: Variable, assignment: VariableAssignment) -> bool:
+      self.constraints.append(constraint)
+      for var in constraint.variables:
+          assert var in self.variables, f"Variable {var} is not a valid variable"
+          self.var_to_constraints[var].append( constraint )
+
+    def is_consistent(self, assignment: VariableAssignment) -> bool:
         """
         Check all constraints that mention `var`. For partial assignments,
         constraint.satisfied returns True unless the constraint is violated.
         """
-        assert var in self.variables, f"Variable {var} is not a valid variable"
-        assert all(value in self.domains[variable] for variable, value in assignment.items()), f"Variable {var} doesn't have a valid assignment"
-        return all(c.satisfied(assignment) for c in self.constraints[var])
+        assert all(value in self.domains[variable] for variable, value in assignment.items()), f"Some variable(s) doesn't have a valid assignment"
+        return all(c.satisfied(assignment) for c in self.constraints)
 
 __all__ = ["Variable", "VariableAssignment", "ConstraintSatisfactionProblem", "Constraint", "ConstraintSatisfactionProblem"]
