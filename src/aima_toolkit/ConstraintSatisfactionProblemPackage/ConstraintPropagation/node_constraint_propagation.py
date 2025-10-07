@@ -22,3 +22,5 @@ def node_constraint_propagation(csp: ConstraintSatisfactionProblem, remove_const
   if remove_constraints_after:
     csp.constraints = [constraint for constraint in csp.constraints if len(constraint.variables) != 1]
   return True
+
+__all__ = ["node_constraint_propagation"]

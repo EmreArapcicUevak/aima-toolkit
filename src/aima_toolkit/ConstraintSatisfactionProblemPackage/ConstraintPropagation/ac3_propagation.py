@@ -45,3 +45,5 @@ def remove_inconsistencies(csp : ConstraintSatisfactionProblem, x1 : str, x2 : s
 
   csp.domains[x1] = d1
   return changed
+
+__all__ = ['ac3']
