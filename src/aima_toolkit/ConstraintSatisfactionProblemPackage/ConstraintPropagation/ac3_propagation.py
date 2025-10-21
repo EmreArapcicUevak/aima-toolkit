@@ -1,5 +1,6 @@
 from ..constraint_satisfaction_problem import ConstraintSatisfactionProblem, Constraint
 from ...SearchProblemPackage.queue import FIFOQueue
+import copy
 
 VariableTuple = tuple[str, str]
 
@@ -33,13 +34,14 @@ def ac3(csp : ConstraintSatisfactionProblem) -> bool:
   return True
 
 def remove_inconsistencies(csp : ConstraintSatisfactionProblem, x1 : str, x2 : str) -> bool:
-  d1, d2 = csp.domains[x1], csp.domains[x2]
+  d1 = copy.deepcopy(csp.domains[x1])
+
   constraints = [ constraint  for constraint in csp.constraints if {x1, x2} == set(constraint.variables) ]
   if len(constraints) == 0: return False
 
   changed = False
-  for x in d1:
-    if not any( all( constraint.satisfied( { x1 : x, x2 : y} ) for constraint in constraints)  for y in d2):
+  for x in csp.domains[x1]:
+    if not any( all( constraint.satisfied( { x1 : x, x2 : y} ) for constraint in constraints)  for y in csp.domains[x2]):
       changed = True
       d1.remove(x)
 
