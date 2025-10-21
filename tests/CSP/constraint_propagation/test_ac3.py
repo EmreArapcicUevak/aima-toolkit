@@ -4,9 +4,9 @@ from src.aima_toolkit.ConstraintSatisfactionProblemPackage.ConstraintPropagation
 def test_ac3_propagation():
   integers_from_zero_to_ten = set(range(11))
   test_csp = ConstraintSatisfactionProblem(variables=['X', 'Y'], domains={'X': integers_from_zero_to_ten, 'Y': integers_from_zero_to_ten})
-  sum_leq_15 = Constraint(['X', 'Y'], lambda assignment: assignment['X'] + assignment['Y'] >= 15)
+  sum_geq_15 = Constraint(['X', 'Y'], lambda assignment: assignment['X'] + assignment['Y'] >= 15)
 
-  test_csp.add_constraint(sum_leq_15)
+  test_csp.add_constraint(sum_geq_15)
   ac3(test_csp)
 
   for x in test_csp.domains['X']:
