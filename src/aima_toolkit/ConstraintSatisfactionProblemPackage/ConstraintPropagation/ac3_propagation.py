@@ -24,7 +24,7 @@ def ac3(csp : ConstraintSatisfactionProblem) -> bool:
         other_variable = first_var if first_var != x1 else second_var
 
         if other_variable == x2: continue
-        new_variable_tuple = (other_variable, first_var)
+        new_variable_tuple = (other_variable, x1)
 
         if new_variable_tuple not in constrainted_variables.que:
           constrainted_variables.push(new_variable_tuple)
