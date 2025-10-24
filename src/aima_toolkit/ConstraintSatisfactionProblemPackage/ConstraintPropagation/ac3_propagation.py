@@ -4,16 +4,20 @@ import copy
 
 VariableTuple = tuple[str, str]
 
-def ac3(csp : ConstraintSatisfactionProblem) -> bool:
-  constrainted_variables = FIFOQueue[VariableTuple]()
+def ac3(csp : ConstraintSatisfactionProblem, arcs : set[tuple[str, str]] | None = None) -> bool:
+  constrained_variables = FIFOQueue[VariableTuple]()
 
-  for constraint in csp.constraints:
-    assert len(constraint.variables) == 2, "Tried to call ac3 propagation (Arc Consistency), on problems with non binary constraints"
-    constrainted_variables.push((constraint.variables[0], constraint.variables[1]))
-    constrainted_variables.push((constraint.variables[1], constraint.variables[0]))
+  if arcs is not None:
+    for arc in arcs:
+      constrained_variables.push(arc)
+  else:
+    for constraint in csp.constraints:
+      assert len(constraint.variables) == 2, "Tried to call ac3 propagation (Arc Consistency), on problems with non binary constraints"
+      constrained_variables.push((constraint.variables[0], constraint.variables[1]))
+      constrained_variables.push((constraint.variables[1], constraint.variables[0]))
 
-  while len(constrainted_variables) > 0:
-    x1, x2 = constrainted_variables.pop()
+  while len(constrained_variables) > 0:
+    x1, x2 = constrained_variables.pop()
 
     if remove_inconsistencies(csp, x1, x2):
       if len(csp.domains[x1]) == 0:
@@ -26,8 +30,8 @@ def ac3(csp : ConstraintSatisfactionProblem) -> bool:
         if other_variable == x2: continue
         new_variable_tuple = (other_variable, x1)
 
-        if new_variable_tuple not in constrainted_variables.que:
-          constrainted_variables.push(new_variable_tuple)
+        if new_variable_tuple not in constrained_variables.que:
+          constrained_variables.push(new_variable_tuple)
 
 
 
