@@ -47,9 +47,9 @@ def test_mini_sudoku():
   node_constraint_propagation(mini_sudoku_csp, remove_constraints_after=True) # Remove all of the constraint
 
   add_alldiff_constraint_as_binary_constraint(mini_sudoku_csp, set(variables)) # Add the alldiff constraint
-  #ac3(mini_sudoku_csp) # call ac3
+  assert  ac3(mini_sudoku_csp) == True # call ac3
 
-  #assert mini_sudoku_csp.domains['X1'] == mini_sudoku_csp.domains['X3'] == mini_sudoku_csp.domains['X5'] == mini_sudoku_csp.domains['X8'] == mini_sudoku_csp.domains['X9'] == {3,5,6,7,9}
+  assert mini_sudoku_csp.domains['X1'] == mini_sudoku_csp.domains['X3'] == mini_sudoku_csp.domains['X5'] == mini_sudoku_csp.domains['X8'] == mini_sudoku_csp.domains['X9'] == {3,5,6,7,9}
   assert mini_sudoku_csp.domains['X2'] == {1}
   assert mini_sudoku_csp.domains['X4'] == {2}
   assert mini_sudoku_csp.domains['X6'] == {4}
@@ -69,7 +69,7 @@ def test_mini_sudoku():
   mini_sudoku_csp_2.domains['X3'] = {2, 5, 1, 3}
   mini_sudoku_csp_2.domains['X9'] = {3, 8}
 
-  print(ac3(mini_sudoku_csp_2))
+  assert ac3(mini_sudoku_csp_2) == True
   assert mini_sudoku_csp_2.domains['X1'] == mini_sudoku_csp_2.domains['X5'] == mini_sudoku_csp_2.domains['X8'] == {6,7,9}
   assert mini_sudoku_csp_2.domains['X3'] == {5}
   assert mini_sudoku_csp_2.domains['X9'] == {3}
