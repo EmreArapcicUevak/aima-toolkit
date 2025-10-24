@@ -21,11 +21,11 @@ class Queue():
           yield self.pop()
 
 
-class FIFOQueue(Queue):
-  def push(self, value):
+class FIFOQueue[V](Queue):
+  def push(self, value : V):
     self.que.append(value)
 
-  def pop(self):
+  def pop(self) -> V:
     return self.que.pop(0)
 
 class PriorityQueueNode[V]:
