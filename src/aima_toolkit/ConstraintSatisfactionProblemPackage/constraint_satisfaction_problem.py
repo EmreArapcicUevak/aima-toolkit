@@ -28,6 +28,9 @@ class Constraint:
     def __eq__(self, other):
       return isinstance(other, Constraint) and set(self.variables) == set(other.variables) and self.constraint_func == other.constraint_func
 
+    def __hash__(self):
+        return hash((frozenset(self.variables), self.constraint_func))
+
 class ConstraintSatisfactionProblem:
     def __init__(self, variables: list[Variable], domains: dict[Variable, set[Any]]):
         self.variables: list[Variable] = list(set(variables))
@@ -35,6 +38,7 @@ class ConstraintSatisfactionProblem:
         self.domains: dict[Variable, set[Any]] = copy.deepcopy(domains)
         self.constraints: list[Constraint] = []
         self.var_to_constraints: dict[Variable, list[Constraint ] ] = defaultdict( list )
+        self.inferences : dict[Variable, set[Any]] | None = None
 
         # sanity checks
         for var in self.domains.keys():
