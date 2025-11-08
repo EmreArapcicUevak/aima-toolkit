@@ -1,79 +1,98 @@
-# aima_toolkit
+# 🧠 AIMA Toolkit — Artificial Intelligence Algorithms in Python
 
-**aima_toolkit** is my personal implementation of algorithms and problems from *Artificial Intelligence: A Modern Approach (4th edition)*.  
-It serves as both a **learning project** and a **reusable package** that I can import into other projects without copy–pasting code.
+The **AIMA Toolkit** is a **personal project** that re-implements and extends the algorithms described in *Artificial Intelligence: A Modern Approach (4th Edition)* by Russell & Norvig — written entirely from scratch in Python.  
 
----
+It serves as a **modular foundation for AI experimentation**, algorithm benchmarking, and educational purposes.  
+The package is now published on PyPI and will continue to expand over time with detailed documentation and advanced examples.
 
-## 🎯 Why I built this
-While studying AIMA, I quickly realized that each chapter builds on a shared set of abstractions (problems, nodes, queues, heuristics, etc.).  
-Copying files around between my “Chapter 3 search agents” and my “Chapter 4 local search” projects became repetitive and messy.
-
-This package solves that by:
-- Providing a **central library** of reusable AI building blocks.
-- Letting me install it locally (or eventually from PyPI) and just `import aima_toolkit`.
-- Forcing me to design my code as **modular, tested, and reusable software** rather than scattered scripts.
+> 📘 **Note:** As of now, there is no documentation available since this is a solo projects. But I will make one as I continue to make progress in the development of this repository
 
 ---
 
-## 📦 What it contains
-The package is organized following the structure of AIMA:
+## 📦 Installation
 
-- **Problems**  
-  - Classic AI problems: 8-queens, Romania map search, simple tree problems.  
-- **SearchProblemPackage**  
-  - **Uninformed Search**: BFS, DFS, Depth-limited, Iterative Deepening, Uniform Cost.  
-  - **Informed Search**: A*.  
-  - **Local Search**: Hill Climbing, Stochastic Hill Climbing, Simulated Annealing, Local Beam, Genetic Algorithms.  
-  - **Nondeterministic, Online, and Partially Observable Search** (scaffolding for future chapters).  
-- **Sampling**  
-  - Utilities like reservoir sampling.  
-- **Core utilities**  
-  - `Node`, `Problem`, `Queue`, `expand` functions, etc.
+Available on [PyPI](https://pypi.org/project/aima-toolkit/):
 
-Tests are included under `tests/` to ensure correctness.
-
----
-
-## 🚀 Goals
-This isn’t just about getting AIMA exercises done—it’s about pushing myself to:
-1. **Write library-quality code**  
-   - Consistent API  
-   - Clear separation of subpackages  
-   - MIT licensed for others to learn from.
-2. **Cover the book’s progression**  
-   - Start with search (Chapters 3–4)  
-   - Move into CSPs (Chapter 5), games (Chapter 6), logic (Chapters 7–10), planning (Chapter 11), uncertainty (Chapters 12–16), machine learning (Chapters 19–23), and beyond.
-3. **Make it reusable for my own projects**  
-   - Example: using the same `Problem` abstraction for both toy textbook problems and custom agents (like N-puzzle solvers or experimental planners).
-
----
-
-## 🔧 Installation
-For now (local development):
 ```bash
-git clone <this-repo>
-cd aima_toolkit
-python -m pip install -e .
+pip install aima-toolkit
 ```
+---
 
-Then in Python:
-```python
-from aima_toolkit.SearchProblemPackage.SearchAlgorithms.InformedSearch.a_star_search import astar
-```
+## 🧩 Current Capabilities
+
+The **AIMA Toolkit** currently supports a growing suite of intelligent agents, search algorithms, and problem-solving paradigms.
+
+### 🤖 Search Agents
+
+Supports the creation of both **simple** and **advanced agents**, including:
+
+- **Sensorless Search Agents**
+- **Partially Observable Agents**
+- **Fully Observable Agents**
+- **Deterministic and Non-Deterministic Agents**
+- **Online and Offline Agents**
+- **Informed & Uninformed Search Variants**
+
+Each agent type can be combined with search strategies such as A*, BFS, DFS, Uniform-Cost, Greedy Best-First, Iterative Deepening, and much more.
 
 ---
 
-## 🛠️ Roadmap
-- ✅ Chapter 3: Uninformed search  
-- ✅ Chapter 4: Local search & optimization  
-- 🔜 Chapter 5: CSPs (backtracking, inference, local search)  
-- 🔜 Chapter 6: Adversarial search & games  
-- 🔜 Chapter 7+: Logic, Planning, Uncertainty, ML, RL…  
+### 🔢 Constraint Satisfaction Problems (CSP)
 
-My long-term goal is to have a **complete, working reference implementation** of all core algorithms in AIMA 4e, with clean Python packaging and tests.
+The toolkit includes a fully modular **CSP framework**, allowing easy definition and solving of different constraint types:
+
+- **Variable and domain registration**
+- **AllDiff, Binary, and Custom constraints**
 
 ---
 
-## 📜 License
-MIT License — free to use, modify, and learn from, with attribution.
+### 🧮 Local Search
+
+Implements a wide range of **local search algorithms**, including:
+- Hill Climbing (with and without random restarts)
+- Simulated Annealing
+- Stochastic Beam Search
+- Genetic Algorithms (planned extension)
+
+These algorithms are designed for optimization, learning, and CSP problems where global solutions are infeasible to compute directly.
+
+---
+
+## 🧠 Demonstration Projects
+
+To showcase the toolkit’s power, I’ve developed two full-featured projects based entirely on this framework:
+
+| Project | Description | Repository |
+|----------|--------------|-------------|
+| 🧩 **N-Puzzle Solver** | A Disjoint Pattern Database (PDB) enhanced N-Puzzle solver built on top of the AIMA Toolkit’s A* infrastructure. | [🔗 View on GitHub](https://github.com/EmreArapcicUevak/N-puzzle-Solver) |
+| 🔢 **Sudoku All-in-One** | A comprehensive Sudoku CSP solver supporting Classic, Diagonal, Kropki, and German Whispers variants — using advanced constraint propagation from AIMA Toolkit. | [🔗 View on GitHub](https://github.com/EmreArapcicUevak/sudoku-all-in-one) |
+
+These serve as **live examples** of the toolkit’s modularity and its use in building powerful AI applications.
+
+---
+
+## 🧬 Project Philosophy
+
+This project aims to create a **comprehensive, modular, and educational AI framework** that remains close to theoretical foundations while being practical for modern Python environments.
+
+Core principles:
+- 🧩 Readable and modular implementations  
+- 🧠 Faithful to algorithmic definitions from *AIMA (4th Ed.)*  
+- ⚙️ Designed for learning, experimentation, and scalability  
+
+---
+
+
+## 💬 Author
+
+**Emre Arapčić-Uevak**  
+📍 Bosnia & Herzegovina  
+🎓 Computer Science & Engineering — International University of Sarajevo  
+🔗 [GitHub Profile](https://github.com/EmreArapcicUevak)
+
+---
+
+## 🪶 License
+
+This project is licensed under the **MIT License**.  
+See [LICENSE](LICENSE) for details.
