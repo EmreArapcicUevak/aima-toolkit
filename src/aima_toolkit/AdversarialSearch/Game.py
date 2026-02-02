@@ -61,7 +61,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     raise NotImplementedError( "This method should be overridden by subclasses" )
 
   @abstractmethod
-  def RESULTS(self, state : StateT, action : MoveT) -> Iterable[StateT]:
+  def RESULTS(self, state : StateT, action : MoveT) -> StateT:
     """
     Return the state that results from applying an action
     in the given state.
