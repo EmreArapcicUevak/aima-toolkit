@@ -1,5 +1,5 @@
-from src.aima_toolkit.ConstraintSatisfactionProblemPackage import ConstraintSatisfactionProblem, Constraint
-from src.aima_toolkit.ConstraintSatisfactionProblemPackage.ConstraintPropagation import ac3
+from aima_toolkit.ConstraintSatisfactionProblemPackage import ConstraintSatisfactionProblem, Constraint
+from aima_toolkit.ConstraintSatisfactionProblemPackage.ConstraintPropagation import ac3
 
 def test_ac3_propagation():
   integers_from_zero_to_ten = set(range(11))

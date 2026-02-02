@@ -1,5 +1,5 @@
-from src.aima_toolkit.ConstraintSatisfactionProblemPackage import ConstraintSatisfactionProblem, Constraint
-from src.aima_toolkit.ConstraintSatisfactionProblemPackage.ConstraintPropagation import node_constraint_propagation
+from aima_toolkit.ConstraintSatisfactionProblemPackage import ConstraintSatisfactionProblem, Constraint
+from aima_toolkit.ConstraintSatisfactionProblemPackage.ConstraintPropagation import node_constraint_propagation
 def test_node_consistency():
   one_to_ten_domain = set(range(1, 11))
   test_csp = ConstraintSatisfactionProblem(['X', 'Y'], { 'X' : one_to_ten_domain, 'Y' : one_to_ten_domain })

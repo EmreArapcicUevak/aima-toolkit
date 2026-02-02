@@ -1,5 +1,5 @@
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Uninformed.nondeterministic_depth_first_search import nondeterministic_depth_first_search
-from src.aima_toolkit.Problems.erratic_vacuum_world import ErraticVacuumWorld
+from aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Uninformed.nondeterministic_depth_first_search import nondeterministic_depth_first_search
+from aima_toolkit.Problems.erratic_vacuum_world import ErraticVacuumWorld
 
 def test_nondeterministic_depth_first_search():
   problem = ErraticVacuumWorld(initial_state=1)

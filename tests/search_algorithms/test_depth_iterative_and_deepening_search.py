@@ -1,6 +1,6 @@
-from src.aima_toolkit.Problems import Tree_Search_Problem
-from src.aima_toolkit.SearchProblemPackage import SearchStatus
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.UninformedSearch import depth_limited_search, iterative_deepening_search
+from aima_toolkit.Problems import Tree_Search_Problem
+from aima_toolkit.SearchProblemPackage import SearchStatus
+from aima_toolkit.SearchProblemPackage.SearchAlgorithms.UninformedSearch import depth_limited_search, iterative_deepening_search
 
 class TestDepthLimitedSearch:
     def test_A_to_G_depth_bad(self):

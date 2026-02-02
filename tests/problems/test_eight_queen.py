@@ -1,5 +1,5 @@
-from src.aima_toolkit.SearchProblemPackage import Node
-from src.aima_toolkit.Problems import EightQueenProblem
+from aima_toolkit.SearchProblemPackage import Node
+from aima_toolkit.Problems import EightQueenProblem
 
 def test_action():
   test_state = "11111111"

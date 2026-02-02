@@ -1,4 +1,4 @@
-from src.aima_toolkit.SearchProblemPackage import PriorityQueue, BoundedPriorityQueue
+from aima_toolkit.SearchProblemPackage import PriorityQueue, BoundedPriorityQueue
 
 def test_prio_que():
   pri_que = PriorityQueue(lambda x: x)

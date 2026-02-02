@@ -1,6 +1,6 @@
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Uninformed.nondeterministic_uniform_cost_search import nondeterministic_uniform_cost_search
-from src.aima_toolkit.SearchProblemPackage import SearchStatus
-from src.aima_toolkit.Problems.erratic_vacuum_world import ErraticVacuumWorld
+from aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Uninformed.nondeterministic_uniform_cost_search import nondeterministic_uniform_cost_search
+from aima_toolkit.SearchProblemPackage import SearchStatus
+from aima_toolkit.Problems.erratic_vacuum_world import ErraticVacuumWorld
 from pprint import pprint
 
 def test_nondeterministic_uniform_cost_search():

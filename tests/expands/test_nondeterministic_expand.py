@@ -1,6 +1,6 @@
 from typing import override, Iterable
 
-from src.aima_toolkit.SearchProblemPackage import nondeterministic_expand, OrNode, AndNode, SearchProblem
+from aima_toolkit.SearchProblemPackage import nondeterministic_expand, OrNode, AndNode, SearchProblem
 
 class MockupProblem(SearchProblem):
   """

@@ -1,7 +1,7 @@
 import pytest
 from typing import Any
 
-from src.aima_toolkit.ConstraintSatisfactionProblemPackage import ConstraintSatisfactionProblem, Constraint
+from aima_toolkit.ConstraintSatisfactionProblemPackage import ConstraintSatisfactionProblem, Constraint
 
 def test_CSP_creation_wrong_paramaters():
   with pytest.raises(AssertionError):

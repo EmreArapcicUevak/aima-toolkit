@@ -1,6 +1,6 @@
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Informed.and_or_star_search import and_or_star_search
-from src.aima_toolkit.SearchProblemPackage import SearchStatus
-from src.aima_toolkit.Problems import ErraticVacuumWorld, VacuumWorld
+from aima_toolkit.SearchProblemPackage.SearchAlgorithms.NondeterministicSearch.Informed.and_or_star_search import and_or_star_search
+from aima_toolkit.SearchProblemPackage import SearchStatus
+from aima_toolkit.Problems import ErraticVacuumWorld, VacuumWorld
 from pprint import pprint
 
 def test_and_or_star_search():

@@ -1,8 +1,8 @@
 from collections.abc import Callable
 
-from src.aima_toolkit.Problems.find_the_ip_phone import Switch, FindTheIPPhone, topology, learned_mac_address
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.OnlineSearch.SearchAgents import OnlineDFSAgent, LearnRealTimeAStarAgent
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.OnlineSearch import OnlineSearchAction, OnlineSearchProblem
+from aima_toolkit.Problems.find_the_ip_phone import Switch, FindTheIPPhone, topology, learned_mac_address
+from aima_toolkit.SearchProblemPackage.SearchAlgorithms.OnlineSearch.SearchAgents import OnlineDFSAgent, LearnRealTimeAStarAgent
+from aima_toolkit.SearchProblemPackage.SearchAlgorithms.OnlineSearch import OnlineSearchAction, OnlineSearchProblem
 from pprint import pprint
 
 

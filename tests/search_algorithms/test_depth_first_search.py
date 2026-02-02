@@ -1,6 +1,6 @@
-from src.aima_toolkit.Problems import Tree_Search_Problem
-from src.aima_toolkit.SearchProblemPackage.SearchAlgorithms.UninformedSearch import depth_first_search
-from src.aima_toolkit.SearchProblemPackage import SearchStatus
+from aima_toolkit.Problems import Tree_Search_Problem
+from aima_toolkit.SearchProblemPackage.SearchAlgorithms.UninformedSearch import depth_first_search
+from aima_toolkit.SearchProblemPackage import SearchStatus
 
 def test_A_to_G():
     problem = Tree_Search_Problem(initial_state='A', goal_state='G')
