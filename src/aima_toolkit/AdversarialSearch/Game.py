@@ -26,17 +26,6 @@ class Game[StateT, MoveT, PlayerT](ABC):
         Type representing a player identifier.
   """
 
-  def __init__(self, initial_state : StateT) -> None:
-    """
-    Initialize the game with an initial state.
-
-    Parameters
-    ----------
-    initial_state : StateT
-        The starting state of the game.
-    """
-    self.initial_state = initial_state
-
   @abstractmethod
   def TO_MOVE(self, state : StateT) -> PlayerT:
     """
@@ -112,7 +101,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     raise NotImplementedError( "This method should be overridden by subclasses" )
 
   @abstractmethod
-  def UTILITY(self, state : StateT, player : PlayerT) -> float:
+  def UTILITY(self, state : StateT) -> dict[PlayerT, float]:
     """
     Return the utility value of a terminal state
     from the perspective of the given player.
@@ -133,7 +122,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     """
     raise NotImplementedError( "This method should be overridden by subclasses" )
 
-  def EVAL(self, state : StateT, player : PlayerT) -> float:
+  def EVAL(self, state : StateT) -> float:
     """
     Evaluate a non-terminal state.
 
