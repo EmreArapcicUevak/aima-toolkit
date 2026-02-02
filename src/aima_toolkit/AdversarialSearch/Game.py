@@ -122,7 +122,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     """
     raise NotImplementedError( "This method should be overridden by subclasses" )
 
-  def EVAL(self, state : StateT) -> float:
+  def EVAL(self, state : StateT) -> dict[PlayerT, float]:
     """
     Evaluate a non-terminal state.
 
@@ -142,7 +142,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     float
         Evaluation score.
     """
-    return self.UTILITY(state, player)
+    return self.UTILITY(state)
 
   def IS_CUTOFF(self, state : StateT, depth : int) -> bool:
     """
