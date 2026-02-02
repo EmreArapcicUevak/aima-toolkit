@@ -13,7 +13,7 @@ authors = [
 ]
 description = "I made this package to help me on my learning journey through the AIMA book and contains all algorithms I build whilst learning through the book"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
