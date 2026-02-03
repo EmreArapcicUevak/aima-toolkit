@@ -27,10 +27,11 @@ Issues = "https://github.com/EmreArapcicUevak/aima-toolkit/issues"
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8.4.1"
+  "pytest>=9.0.2"
 ]
 
-[tool.pytest.ini_options]
+[tool.pytest]
+addopts = ["-vv", "--count=10"]
 testpaths = ["tests"]
 
 [tool.setuptools_scm]
