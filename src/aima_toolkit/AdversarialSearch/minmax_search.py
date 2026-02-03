@@ -15,11 +15,11 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
   current_player : PlayerT = game.TO_MOVE(state)
   best_score : dict[PlayerT, float] = {current_player: -math.inf}
   best_move : MoveT | None = None
-  scores = np.empty()
+  scores = np.array([])
 
   for action in game.ACTIONS(state):
     result_state = game.RESULTS(state, action)
-    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply)
+    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply, margin=margin)
 
     scores = np.append(scores, new_score[current_player])
     if new_score[current_player] > best_score[current_player]:
