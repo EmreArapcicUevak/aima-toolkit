@@ -1,3 +1,5 @@
+from logging import getHandlerNames
+
 import numpy
 
 from .Game import Game
@@ -15,6 +17,8 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
   current_player : PlayerT = game.TO_MOVE(state)
   best_score : dict[PlayerT, float] = {current_player: -math.inf}
   best_move : MoveT | None = None
+  best_node_is_cutoff = False
+
   scores = np.array([])
 
   for action in game.ACTIONS(state):
@@ -25,13 +29,14 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
     if new_score[current_player] > best_score[current_player]:
       best_score = new_score
       best_move = action
+      best_node_is_cutoff = game.IS_CUTOFF(state, depth=depth+1)
 
   singularity_state = game.RESULTS( state, best_move )
 
   scores_delta = best_score[current_player] - scores
   num_of_neighbors = (scores_delta <= margin).sum() - 1
 
-  if num_of_neighbors != 0: # No Singularity
+  if best_node_is_cutoff == False or num_of_neighbors != 0: # No Singularity at the cutoff node
     return best_score, best_move
 
   extended_score, _ = _ply_search(game, singularity_state, ply=singularity_ply) # get the new score and action
