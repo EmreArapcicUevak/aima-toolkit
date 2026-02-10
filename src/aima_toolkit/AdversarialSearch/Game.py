@@ -60,6 +60,28 @@ class Game[StateT, MoveT, PlayerT](ABC):
     """
     raise NotImplementedError( "This method should be overridden by subclasses" )
 
+  def QUIESCENCE_ACTIONS(self, state : StateT) -> Iterable[MoveT]:
+    """
+    Return all legal actions available in the given state that should be
+    considered during quiescence search.
+
+    Quiescence actions are typically a subset of all legal actions, such as
+    captures, checks, or other "tactical" moves that prevent evaluating
+    unstable positions too early.
+
+    Parameters
+    ----------
+    state : StateT
+        Current game state.
+
+    Returns
+    -------
+    Iterable[MoveT]
+        An iterable of legal quiescence moves.
+    """
+    return []
+
+
   @abstractmethod
   def RESULTS(self, state : StateT, action : MoveT) -> StateT:
     """

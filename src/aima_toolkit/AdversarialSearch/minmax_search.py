@@ -12,7 +12,7 @@ def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], st
   return _search(game, state, depth=0, margin=margin, singularity_ply=singularity_ply)
 
 def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int , margin : float, singularity_ply : int) -> tuple[dict[PlayerT, float], MoveT | None]:
-  if game.IS_CUTOFF(state, depth): return (game.EVAL(state), None)
+  if game.IS_CUTOFF(state, depth): return _quiescence_search(game, state), None
 
   current_player : PlayerT = game.TO_MOVE(state)
   best_score : dict[PlayerT, float] = {current_player: -math.inf}
@@ -61,5 +61,25 @@ def _ply_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], stat
 
   return best_score, best_move
 
+def _quiescence_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT) -> dict[PlayerT, float]:
+  if game.IS_TERMINAL(state): return game.EVAL(state)
+
+  current_player : PlayerT = game.TO_MOVE(state)
+  best_score : dict[PlayerT, float] = {current_player: -math.inf}
+
+  is_quiescence_state = True
+
+  for action in game.QUIESCENCE_ACTIONS(state):
+    is_quiescence_state = False
+    result_state = game.RESULTS(state, action)
+    new_score  = _quiescence_search(game, result_state)
+
+    if new_score[current_player] > best_score[current_player]:
+      best_score = new_score
+
+  if is_quiescence_state:
+    return game.EVAL(state)
+  else:
+    return best_score
 
 __all__ = ['minmax_search']
