@@ -172,3 +172,23 @@ class TestBreakthrough:
     assert 13 in q_dests
     assert 12 not in q_dests  # <--- This is the proof! The quiet move is filtered out.
     assert len( q_dests ) == 2
+
+  # --- Transition Model Tests ---
+
+  def test_results_updates_correctly(self, game):
+    """Ensure RESULTS moves the piece and clears the old spot."""
+    # Setup: White at 22 (bottom row), attempting to move forward to 17
+    board_list = [ ' ' ] * 25
+    board_list[ 22 ] = 'w'
+    board_list[ 0 ] = 'b'
+    state = (tuple( board_list ), 0)  # 0 is White
+
+    action = "22-17"
+    new_state = game.RESULTS( state, action )
+    new_board, next_player = new_state
+
+    # Check board update
+    assert new_board[ 22 ] == ' '
+    assert new_board[ 17 ] == 'w'
+    # Check player swap (0 -> 1)
+    assert next_player == 1
