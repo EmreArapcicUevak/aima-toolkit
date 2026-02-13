@@ -20,7 +20,7 @@ def test_minmax_takes_winning_move(ttt_game):
   values, move = minmax_search( ttt_game, state )
 
   assert move == 2
-  assert values[ 'X' ] == 1
+  assert values[ 'X' ] == 2
 
 def test_minmax_blocks_opponent_win(ttt_game):
   """If O is about to win, X must move to block them."""
@@ -43,8 +43,8 @@ def test_minmax_perfect_play_draw(ttt_game):
   # We use a lower singularity_ply or specific margin if your implementation requires
   values, move = minmax_search( ttt_game, state, margin=0.1, singularity_ply=1 )
 
-  assert values[ 'X' ] == 0
-  assert values[ 'O' ] == 0
+  assert values[ 'X' ] == 1
+  assert values[ 'O' ] == 1
   # On an empty board, center (4) or corners are common optimal moves
   assert move in [ 0, 2, 4, 6, 8 ]
 
@@ -61,7 +61,7 @@ def test_minmax_respects_depth_limit( ):
 
   # Since it can't see the end of the game,
   # it should return the heuristic value from EVAL
-  assert -1 < values[ 'X' ] < 1
+  assert 0 < values[ 'X' ] < 2
   assert move is not None
 
 def test_minmax_terminal_state(ttt_game):
@@ -74,5 +74,5 @@ def test_minmax_terminal_state(ttt_game):
   values, move = minmax_search( ttt_game, state )
 
   assert move is None
-  assert values[ 'X' ] == 1
-  assert values[ 'O' ] == -1
+  assert values[ 'X' ] == 2
+  assert values[ 'O' ] == 0

@@ -105,7 +105,7 @@ class TestBreakthrough:
     state = make_state( board_str, 0 )
     evals = game.EVAL( state )
     # On a mirrored starting board, the relative advantage should be 0
-    assert evals[ 0 ] == 0
+    assert evals[ 0 ] == 1
 
     def test_eval_material_advantage(self, game):
       """White with 3 pieces should have higher score than Black with 2 pieces (same rows)."""

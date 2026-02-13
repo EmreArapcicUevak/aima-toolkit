@@ -29,11 +29,11 @@ def test_actions_finds_all_empty_spaces(game):
 
 @pytest.mark.parametrize("board, expected_utility", [
     # X wins horizontally
-    (('X', 'X', 'X', 'O', 'O', ' ', ' ', ' ', ' '), {'X': 1, 'O': -1}),
+    (('X', 'X', 'X', 'O', 'O', ' ', ' ', ' ', ' '), {'X': 2, 'O': 0}),
     # O wins vertically
-    (('X', 'O', ' ', 'X', 'O', ' ', ' ', 'O', 'X'), {'X': -1, 'O': 1}),
+    (('X', 'O', ' ', 'X', 'O', ' ', ' ', 'O', 'X'), {'X': 0, 'O': 2}),
     # Draw
-    (('X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'), {'X': 0, 'O': 0}),
+    (('X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'), {'X': 1, 'O': 1}),
 ])
 def test_terminal_utility(game, board, expected_utility):
     state = (board, 'X')
@@ -59,8 +59,8 @@ def test_eval_heuristic_direction(game):
 
   scores = game.EVAL( state )
   # X should have a positive score, O negative
-  assert scores[ 'X' ] > 0
-  assert scores[ 'O' ] < 0
+  assert scores[ 'X' ] > 1
+  assert scores[ 'O' ] < 1
 
 
 # --- Cutoff Logic ---

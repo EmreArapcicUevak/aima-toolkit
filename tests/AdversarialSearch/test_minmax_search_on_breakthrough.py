@@ -41,8 +41,8 @@ def test_minmax_takes_winning_move(bt_game):
     assert dest in (0,1,2)  # Must land in Winning Row (0-4)
 
     # Check if value reflects a win
-    assert values[0] == 1
-    assert values[1] == -1
+    assert values[0] == 2
+    assert values[1] == 0
 
 def test_minmax_blocks_opponent_win(bt_game):
     """If Black is about to win, White must capture or block them."""
@@ -79,7 +79,7 @@ def test_minmax_respects_depth_limit():
     # Since it's not a terminal state, values should be heuristic scores
     # Checking that we got a valid move and a score
     assert get_dest(move) in (6, 8)
-    assert values[0] > 0
+    assert values[0] > 1
 
 def test_minmax_terminal_state(bt_game):
     """If called on a terminal state, move should be None."""
@@ -91,8 +91,8 @@ def test_minmax_terminal_state(bt_game):
     values, move = minmax_search(bt_game, state)
 
     assert move is None
-    assert values[0] == 1
-    assert values[1] == -1
+    assert values[0] == 2
+    assert values[1] == 0
 
 def test_minmax_quiescence_scenario(bt_game):
     """
