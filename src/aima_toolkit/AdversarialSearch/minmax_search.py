@@ -9,21 +9,30 @@ import numpy as np
 def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT , * , margin : float = math.inf, singularity_ply : int = 1) -> tuple[dict[PlayerT, float], MoveT | None]:
   assert singularity_ply >= 1
 
-  return _search(game, state, depth=0, margin=margin, singularity_ply=singularity_ply)
+  return _search(game, state, depth=0, margin=margin, singularity_ply=singularity_ply,  bound=game.sum)
 
-def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int , margin : float, singularity_ply : int) -> tuple[dict[PlayerT, float], MoveT | None]:
+def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int , margin : float, singularity_ply : int, bound : float) -> tuple[dict[PlayerT, float], MoveT | None]:
   if game.IS_CUTOFF(state, depth): return _quiescence_search(game, state), None
 
   current_player : PlayerT = game.TO_MOVE(state)
-  best_score : dict[PlayerT, float] = {current_player: -math.inf}
-  best_move : MoveT | None = None
+
+  actions = iter(game.ACTIONS(state))
+  best_move = next(actions, None)
+
+  assert best_move is not None
+  next_state = game.RESULTS(state, best_move)
+
+  best_score, _  = _search(game, next_state, depth=depth+1, margin=margin, singularity_ply=singularity_ply, bound=game.sum)
   best_node_is_cutoff = False
 
   scores = np.array([])
 
-  for action in game.ACTIONS(state):
+  for action in actions:
+    if best_score[current_player] >= bound: # Shallow pruning
+      return best_score, best_move
+
     result_state = game.RESULTS(state, action)
-    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply, margin=margin)
+    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply, margin=margin, bound=game.sum-best_score[current_player])
 
     scores = np.append(scores, new_score[current_player])
     if new_score[current_player] > best_score[current_player]:
