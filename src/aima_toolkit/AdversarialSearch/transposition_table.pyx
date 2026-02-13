@@ -20,6 +20,8 @@ cdef class TranspositionTable:
 
     # Allocate raw C memory (fast, no Python GC)
     self.table = <TTEntry *> malloc( self.size * entry_size )
+    if not self.table:
+      raise MemoryError( )
 
     # Initialize with zeros
     memset( self.table, 0, self.size * entry_size )
