@@ -59,7 +59,7 @@ class TicTacToe(Game):
       such as minimax or alpha–beta pruning.
   """
   def __init__(self, depth_limit : int):
-    super().__init__()
+    super().__init__(sum=2)
     self.depth_limit = depth_limit
 
   def TO_MOVE(self, state: tuple[tuple,str]) -> str:
@@ -97,16 +97,16 @@ class TicTacToe(Game):
 
     for i in (0,1,2):
       if board[i] != ' ' and board[i] == board[i+3] == board[i+6]: # Check rows
-        return {'X' : 1, 'O' : -1}  if board[i] == 'X' else {'X' : -1, 'O' : 1}
+        return {'X' : 2, 'O' : 0}  if board[i] == 'X' else {'X' : 0, 'O' : 2}
 
     for i in (0,3,6):
       if board[i] != ' ' and board[i] == board[i+1] == board[i+2]: # Check columns
-        return {'X' : 1, 'O' : -1}  if board[i] == 'X' else {'X' : -1, 'O' : 1}
+        return {'X' : 2, 'O' : 0}  if board[i] == 'X' else {'X' : 0, 'O' : 2}
 
     if board[4] != ' ' and (board[0] == board[4] == board[8] or board[2] == board[4] == board[6]): # Check Diagonals
-      return { 'X': 1, 'O': -1 } if board[ 4 ] == 'X' else { 'X': -1, 'O': 1 }
+      return { 'X': 2, 'O': 0 } if board[ 4 ] == 'X' else { 'X': 0, 'O': 2 }
 
-    return { 'X' : 0, 'O' : 0 } # Draw
+    return { 'X' : 1, 'O' : 1 } # Draw
 
   def EVAL(self, state: tuple[tuple,str]) -> dict[ str, float ]:
     if self.IS_TERMINAL(state):
@@ -138,7 +138,7 @@ class TicTacToe(Game):
 
     final_score = final_score / 16
 
-    return {'X' : final_score, 'O' : -final_score}
+    return {'X' : 1+final_score, 'O' : 1-final_score}
 
   def IS_CUTOFF(self, state: tuple[tuple,str], depth: int) -> bool:
     assert depth >= 0

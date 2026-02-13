@@ -35,7 +35,7 @@ class Breakthrough(Game):
       0 for White, 1 for Black.
   """
   def __init__(self, depth_limit : int):
-    super().__init__()
+    super().__init__(sum=2)
     self.depth_limit = depth_limit
 
   def TO_MOVE(self, state: StateT) -> PlayerT:
@@ -116,11 +116,11 @@ class Breakthrough(Game):
     board, _ = state
 
     if 'w' not in board and 'b' not in board:
-      return {0 : 0, 1 : 0}
+      return {0 : 1, 1 : 1}
     elif 'w' not in board or 'b' in board[20:25]:
-      return {0 : -1, 1 : 1}
+      return {0 : 0, 1 : 2}
     else:
-      return {0 : 1, 1 : -1}
+      return {0 : 2, 1 : 0}
 
   def EVAL(self, state: StateT) -> dict[ PlayerT, float ]:
     if self.IS_TERMINAL(state):
@@ -140,7 +140,7 @@ class Breakthrough(Game):
         black_score += row * 2
 
     normalized_score = (white_score - black_score) / 170
-    return {0 : normalized_score, 1 : -normalized_score}
+    return {0 : 1+normalized_score, 1 : 1-normalized_score}
 
   def IS_CUTOFF(self, state: StateT, depth: int) -> bool:
     assert depth >= 0
