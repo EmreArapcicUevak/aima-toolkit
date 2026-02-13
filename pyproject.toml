@@ -28,11 +28,12 @@ Issues = "https://github.com/EmreArapcicUevak/aima-toolkit/issues"
 [project.optional-dependencies]
 dev = [
   "pytest>=9.0.2",
-  "pytest-repeat"
+  "pytest-repeat",
+  "pytest-timer[termcolor]"
 ]
 
 [tool.pytest]
-addopts = ["-vv", "--count=10"]
+addopts = ["-vv", "--count=5"]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 
