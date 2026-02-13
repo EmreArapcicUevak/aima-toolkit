@@ -1,6 +1,7 @@
 from abc import abstractmethod, ABC
 from collections.abc import Iterable
 from typing import Generic, TypeVar
+import math
 
 class Game[StateT, MoveT, PlayerT](ABC):
   """
@@ -25,6 +26,9 @@ class Game[StateT, MoveT, PlayerT](ABC):
     PlayerT
         Type representing a player identifier.
   """
+
+  def __init__(self, *, sum : float = math.inf) -> None:
+    self.sum = sum
 
   @abstractmethod
   def TO_MOVE(self, state : StateT) -> PlayerT:
