@@ -3,6 +3,8 @@ from collections.abc import Iterable
 from typing import Generic, TypeVar
 import math
 
+from .transposition_table import TranspositionTable
+
 class Game[StateT, MoveT, PlayerT](ABC):
   """
     Abstract base class for turn-based adversarial games.
@@ -27,8 +29,10 @@ class Game[StateT, MoveT, PlayerT](ABC):
         Type representing a player identifier.
   """
 
-  def __init__(self, *, sum : float = math.inf) -> None:
+  def __init__(self, *, sum : float = math.inf, transposition_table_size_mb : int = 0) -> None:
+    assert transposition_table_size_mb >= 0
     self.sum = sum
+    self.transposition_table : TranspositionTable | None = TranspositionTable(transposition_table_size_mb) if transposition_table_size_mb > 0 else None
 
   @abstractmethod
   def TO_MOVE(self, state : StateT) -> PlayerT:
