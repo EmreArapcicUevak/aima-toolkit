@@ -32,7 +32,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
   def __init__(self, *, sum : float = math.inf, transposition_table_size_mb : int = 0) -> None:
     assert transposition_table_size_mb >= 0
     self.sum = sum
-    self.transposition_table : TranspositionTable | None = TranspositionTable(transposition_table_size_mb) if transposition_table_size_mb > 0 else None
+    self.transposition_table : TranspositionTable = TranspositionTable(transposition_table_size_mb)
 
   @abstractmethod
   def TO_MOVE(self, state : StateT) -> PlayerT:
