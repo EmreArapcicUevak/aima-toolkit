@@ -23,6 +23,10 @@ cdef class TranspositionTable:
     cdef size_t entry_size = sizeof(TTEntry)
     self.size = (size_in_mb * 1024 * 1024) // entry_size
 
+    if self.size == 0:
+      self.table = NULL
+      return
+
     # Allocate raw C memory (fast, no Python GC)
     self.table = <TTEntry *> malloc( self.size * entry_size )
     if not self.table:

@@ -2642,7 +2642,7 @@ static int __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18T
  *     cdef size_t entry_size = sizeof(TTEntry)
  *     self.size = (size_in_mb * 1024 * 1024) // entry_size             # <<<<<<<<<<<<<<
  * 
- *     # Allocate raw C memory (fast, no Python GC)
+ *     if self.size == 0:
 */
   __pyx_t_1 = ((__pyx_v_size_in_mb * 0x400) * 0x400);
   if (unlikely(__pyx_v_entry_size == 0)) {
@@ -2651,7 +2651,45 @@ static int __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18T
   }
   __pyx_v_self->size = (__pyx_t_1 / __pyx_v_entry_size);
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":27
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":26
+ *     self.size = (size_in_mb * 1024 * 1024) // entry_size
+ * 
+ *     if self.size == 0:             # <<<<<<<<<<<<<<
+ *       self.table = NULL
+ *       return
+*/
+  __pyx_t_2 = (__pyx_v_self->size == 0);
+  if (__pyx_t_2) {
+
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":27
+ * 
+ *     if self.size == 0:
+ *       self.table = NULL             # <<<<<<<<<<<<<<
+ *       return
+ * 
+*/
+    __pyx_v_self->table = NULL;
+
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":28
+ *     if self.size == 0:
+ *       self.table = NULL
+ *       return             # <<<<<<<<<<<<<<
+ * 
+ *     # Allocate raw C memory (fast, no Python GC)
+*/
+    __pyx_r = 0;
+    goto __pyx_L0;
+
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":26
+ *     self.size = (size_in_mb * 1024 * 1024) // entry_size
+ * 
+ *     if self.size == 0:             # <<<<<<<<<<<<<<
+ *       self.table = NULL
+ *       return
+*/
+  }
+
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":31
  * 
  *     # Allocate raw C memory (fast, no Python GC)
  *     self.table = <TTEntry *> malloc( self.size * entry_size )             # <<<<<<<<<<<<<<
@@ -2660,7 +2698,7 @@ static int __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18T
 */
   __pyx_v_self->table = ((struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_TTEntry *)malloc((__pyx_v_self->size * __pyx_v_entry_size)));
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":28
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":32
  *     # Allocate raw C memory (fast, no Python GC)
  *     self.table = <TTEntry *> malloc( self.size * entry_size )
  *     if not self.table:             # <<<<<<<<<<<<<<
@@ -2670,16 +2708,16 @@ static int __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18T
   __pyx_t_2 = (!(__pyx_v_self->table != 0));
   if (unlikely(__pyx_t_2)) {
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":29
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":33
  *     self.table = <TTEntry *> malloc( self.size * entry_size )
  *     if not self.table:
  *       raise MemoryError( )             # <<<<<<<<<<<<<<
  * 
  *     # Initialize with zeros
 */
-    PyErr_NoMemory(); __PYX_ERR(0, 29, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 33, __pyx_L1_error)
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":28
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":32
  *     # Allocate raw C memory (fast, no Python GC)
  *     self.table = <TTEntry *> malloc( self.size * entry_size )
  *     if not self.table:             # <<<<<<<<<<<<<<
@@ -2688,7 +2726,7 @@ static int __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18T
 */
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":32
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":36
  * 
  *     # Initialize with zeros
  *     memset( self.table, 0, self.size * entry_size )             # <<<<<<<<<<<<<<
@@ -2715,7 +2753,7 @@ static int __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18T
   return __pyx_r;
 }
 
-/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":34
+/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":38
  *     memset( self.table, 0, self.size * entry_size )
  * 
  *   def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -2739,7 +2777,7 @@ static void __pyx_pw_12aima_toolkit_17AdversarialSearch_19transposition_table_18
 static void __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_2__dealloc__(struct __pyx_obj_12aima_toolkit_17AdversarialSearch_19transposition_table_TranspositionTable *__pyx_v_self) {
   int __pyx_t_1;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":36
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":40
  *   def __dealloc__(self):
  *     # Manual cleanup is required for malloc
  *     if self.table:             # <<<<<<<<<<<<<<
@@ -2749,7 +2787,7 @@ static void __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18
   __pyx_t_1 = (__pyx_v_self->table != 0);
   if (__pyx_t_1) {
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":37
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":41
  *     # Manual cleanup is required for malloc
  *     if self.table:
  *       free( self.table )             # <<<<<<<<<<<<<<
@@ -2758,7 +2796,7 @@ static void __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18
 */
     free(__pyx_v_self->table);
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":36
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":40
  *   def __dealloc__(self):
  *     # Manual cleanup is required for malloc
  *     if self.table:             # <<<<<<<<<<<<<<
@@ -2767,7 +2805,7 @@ static void __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18
 */
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":34
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":38
  *     memset( self.table, 0, self.size * entry_size )
  * 
  *   def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -2778,7 +2816,7 @@ static void __pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_table_18
   /* function exit code */
 }
 
-/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":40
+/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":44
  * 
  *   # Fast C-Python method to store data
  *   cpdef store(self, long long key, unsigned int depth, double score, int flag, int move):             # <<<<<<<<<<<<<<
@@ -2830,22 +2868,22 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_mstate_global->__pyx_n_u_store); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_mstate_global->__pyx_n_u_store); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!__Pyx_IsSameCFunction(__pyx_t_1, (void(*)(void)) __pyx_pw_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_5store)) {
         __Pyx_XDECREF(__pyx_r);
         __pyx_t_3 = NULL;
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; 
-        __pyx_t_5 = __Pyx_PyLong_From_PY_LONG_LONG(__pyx_v_key); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyLong_From_PY_LONG_LONG(__pyx_v_key); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = __Pyx_PyLong_From_unsigned_int(__pyx_v_depth); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyLong_From_unsigned_int(__pyx_v_depth); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_score); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L1_error)
+        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_score); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 44, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyLong_From_int(__pyx_v_flag); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 40, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyLong_From_int(__pyx_v_flag); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 44, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = __Pyx_PyLong_From_int(__pyx_v_move); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 40, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyLong_From_int(__pyx_v_move); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 44, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __pyx_t_10 = 1;
         #if CYTHON_UNPACK_METHODS
@@ -2869,7 +2907,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
         }
         __pyx_r = __pyx_t_2;
@@ -2890,7 +2928,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
     #endif
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":41
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":45
  *   # Fast C-Python method to store data
  *   cpdef store(self, long long key, unsigned int depth, double score, int flag, int move):
  *     if self.size == 0:             # <<<<<<<<<<<<<<
@@ -2900,7 +2938,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
   __pyx_t_11 = (__pyx_v_self->size == 0);
   if (__pyx_t_11) {
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":42
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":46
  *   cpdef store(self, long long key, unsigned int depth, double score, int flag, int move):
  *     if self.size == 0:
  *       return             # <<<<<<<<<<<<<<
@@ -2911,7 +2949,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":41
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":45
  *   # Fast C-Python method to store data
  *   cpdef store(self, long long key, unsigned int depth, double score, int flag, int move):
  *     if self.size == 0:             # <<<<<<<<<<<<<<
@@ -2920,7 +2958,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":44
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":48
  *       return
  * 
  *     cdef unsigned long long index = key % self.size             # <<<<<<<<<<<<<<
@@ -2929,11 +2967,11 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
   if (unlikely(__pyx_v_self->size == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-    __PYX_ERR(0, 44, __pyx_L1_error)
+    __PYX_ERR(0, 48, __pyx_L1_error)
   }
   __pyx_v_index = (__pyx_v_key % __pyx_v_self->size);
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":45
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":49
  * 
  *     cdef unsigned long long index = key % self.size
  *     cdef TTEntry * entry = &self.table[ index ]             # <<<<<<<<<<<<<<
@@ -2942,7 +2980,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
   __pyx_v_entry = (&(__pyx_v_self->table[__pyx_v_index]));
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":49
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":53
  *     # REPLACEMENT STRATEGY:
  *     # Only overwrite if the new search is deeper or the slot is empty (or collision logic)
  *     if entry.key == 0 or depth >= entry.depth:             # <<<<<<<<<<<<<<
@@ -2960,7 +2998,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
   __pyx_L5_bool_binop_done:;
   if (__pyx_t_11) {
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":50
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":54
  *     # Only overwrite if the new search is deeper or the slot is empty (or collision logic)
  *     if entry.key == 0 or depth >= entry.depth:
  *       entry.key = key             # <<<<<<<<<<<<<<
@@ -2969,7 +3007,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
     __pyx_v_entry->key = __pyx_v_key;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":51
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":55
  *     if entry.key == 0 or depth >= entry.depth:
  *       entry.key = key
  *       entry.score = score             # <<<<<<<<<<<<<<
@@ -2978,7 +3016,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
     __pyx_v_entry->score = __pyx_v_score;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":52
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":56
  *       entry.key = key
  *       entry.score = score
  *       entry.depth = depth             # <<<<<<<<<<<<<<
@@ -2987,7 +3025,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
     __pyx_v_entry->depth = __pyx_v_depth;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":53
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":57
  *       entry.score = score
  *       entry.depth = depth
  *       entry.flags = flag             # <<<<<<<<<<<<<<
@@ -2996,7 +3034,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
     __pyx_v_entry->flags = __pyx_v_flag;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":54
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":58
  *       entry.depth = depth
  *       entry.flags = flag
  *       entry.best_move = move             # <<<<<<<<<<<<<<
@@ -3005,7 +3043,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
     __pyx_v_entry->best_move = __pyx_v_move;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":49
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":53
  *     # REPLACEMENT STRATEGY:
  *     # Only overwrite if the new search is deeper or the slot is empty (or collision logic)
  *     if entry.key == 0 or depth >= entry.depth:             # <<<<<<<<<<<<<<
@@ -3014,7 +3052,7 @@ static PyObject *__pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_tabl
 */
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":40
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":44
  * 
  *   # Fast C-Python method to store data
  *   cpdef store(self, long long key, unsigned int depth, double score, int flag, int move):             # <<<<<<<<<<<<<<
@@ -3086,60 +3124,60 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_key,&__pyx_mstate_global->__pyx_n_u_depth,&__pyx_mstate_global->__pyx_n_u_score,&__pyx_mstate_global->__pyx_n_u_flag,&__pyx_mstate_global->__pyx_n_u_move,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 40, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 44, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 44, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 44, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 44, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 44, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 44, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "store", 0) < (0)) __PYX_ERR(0, 40, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "store", 0) < (0)) __PYX_ERR(0, 44, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 5; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("store", 1, 5, 5, i); __PYX_ERR(0, 40, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("store", 1, 5, 5, i); __PYX_ERR(0, 44, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 5)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 40, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 44, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 40, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 44, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 40, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 44, __pyx_L3_error)
       values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 40, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 44, __pyx_L3_error)
       values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 40, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 44, __pyx_L3_error)
     }
-    __pyx_v_key = __Pyx_PyLong_As_PY_LONG_LONG(values[0]); if (unlikely((__pyx_v_key == (PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
-    __pyx_v_depth = __Pyx_PyLong_As_unsigned_int(values[1]); if (unlikely((__pyx_v_depth == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
-    __pyx_v_score = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_score == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
-    __pyx_v_flag = __Pyx_PyLong_As_int(values[3]); if (unlikely((__pyx_v_flag == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
-    __pyx_v_move = __Pyx_PyLong_As_int(values[4]); if (unlikely((__pyx_v_move == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
+    __pyx_v_key = __Pyx_PyLong_As_PY_LONG_LONG(values[0]); if (unlikely((__pyx_v_key == (PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
+    __pyx_v_depth = __Pyx_PyLong_As_unsigned_int(values[1]); if (unlikely((__pyx_v_depth == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
+    __pyx_v_score = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_score == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
+    __pyx_v_flag = __Pyx_PyLong_As_int(values[3]); if (unlikely((__pyx_v_flag == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
+    __pyx_v_move = __Pyx_PyLong_As_int(values[4]); if (unlikely((__pyx_v_move == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("store", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 40, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("store", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 44, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3169,7 +3207,7 @@ static PyObject *__pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_tab
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("store", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_store(__pyx_v_self, __pyx_v_key, __pyx_v_depth, __pyx_v_score, __pyx_v_flag, __pyx_v_move, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_store(__pyx_v_self, __pyx_v_key, __pyx_v_depth, __pyx_v_score, __pyx_v_flag, __pyx_v_move, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3186,7 +3224,7 @@ static PyObject *__pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_tab
   return __pyx_r;
 }
 
-/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":57
+/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":61
  * 
  *   # Fast C-only method to retrieve data
  *   cdef TTEntry* _probe(self, unsigned long long key) :             # <<<<<<<<<<<<<<
@@ -3203,7 +3241,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":58
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":62
  *   # Fast C-only method to retrieve data
  *   cdef TTEntry* _probe(self, unsigned long long key) :
  *     if self.size == 0:             # <<<<<<<<<<<<<<
@@ -3213,7 +3251,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
   __pyx_t_1 = (__pyx_v_self->size == 0);
   if (__pyx_t_1) {
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":59
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":63
  *   cdef TTEntry* _probe(self, unsigned long long key) :
  *     if self.size == 0:
  *       return NULL             # <<<<<<<<<<<<<<
@@ -3223,7 +3261,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
     __pyx_r = NULL;
     goto __pyx_L0;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":58
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":62
  *   # Fast C-only method to retrieve data
  *   cdef TTEntry* _probe(self, unsigned long long key) :
  *     if self.size == 0:             # <<<<<<<<<<<<<<
@@ -3232,7 +3270,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
 */
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":61
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":65
  *       return NULL
  * 
  *     cdef unsigned long long index = key % self.size             # <<<<<<<<<<<<<<
@@ -3241,11 +3279,11 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
 */
   if (unlikely(__pyx_v_self->size == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-    __PYX_ERR(0, 61, __pyx_L1_error)
+    __PYX_ERR(0, 65, __pyx_L1_error)
   }
   __pyx_v_index = (__pyx_v_key % __pyx_v_self->size);
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":62
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":66
  * 
  *     cdef unsigned long long index = key % self.size
  *     cdef TTEntry * entry = &self.table[ index ]             # <<<<<<<<<<<<<<
@@ -3254,7 +3292,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
 */
   __pyx_v_entry = (&(__pyx_v_self->table[__pyx_v_index]));
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":64
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":68
  *     cdef TTEntry * entry = &self.table[ index ]
  * 
  *     if entry.key == key:             # <<<<<<<<<<<<<<
@@ -3264,7 +3302,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
   __pyx_t_1 = (__pyx_v_entry->key == __pyx_v_key);
   if (__pyx_t_1) {
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":65
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":69
  * 
  *     if entry.key == key:
  *       return entry             # <<<<<<<<<<<<<<
@@ -3274,7 +3312,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
     __pyx_r = __pyx_v_entry;
     goto __pyx_L0;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":64
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":68
  *     cdef TTEntry * entry = &self.table[ index ]
  * 
  *     if entry.key == key:             # <<<<<<<<<<<<<<
@@ -3283,7 +3321,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
 */
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":66
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":70
  *     if entry.key == key:
  *       return entry
  *     return NULL             # <<<<<<<<<<<<<<
@@ -3293,7 +3331,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
   __pyx_r = NULL;
   goto __pyx_L0;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":57
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":61
  * 
  *   # Fast C-only method to retrieve data
  *   cdef TTEntry* _probe(self, unsigned long long key) :             # <<<<<<<<<<<<<<
@@ -3309,7 +3347,7 @@ static struct __pyx_t_12aima_toolkit_17AdversarialSearch_19transposition_table_T
   return __pyx_r;
 }
 
-/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":68
+/* "aima_toolkit/AdversarialSearch/transposition_table.pyx":72
  *     return NULL
  * 
  *   def probe(self, long long key, player, actions : Iterator) -> tuple[dict[Any, float], Any] | None:             # <<<<<<<<<<<<<<
@@ -3358,46 +3396,46 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_key,&__pyx_mstate_global->__pyx_n_u_player,&__pyx_mstate_global->__pyx_n_u_actions,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 68, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 72, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 68, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 68, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 68, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "probe", 0) < (0)) __PYX_ERR(0, 68, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "probe", 0) < (0)) __PYX_ERR(0, 72, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 3; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("probe", 1, 3, 3, i); __PYX_ERR(0, 68, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("probe", 1, 3, 3, i); __PYX_ERR(0, 72, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 3)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 68, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 72, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 68, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 72, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 68, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 72, __pyx_L3_error)
     }
-    __pyx_v_key = __Pyx_PyLong_As_PY_LONG_LONG(values[0]); if (unlikely((__pyx_v_key == (PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L3_error)
+    __pyx_v_key = __Pyx_PyLong_As_PY_LONG_LONG(values[0]); if (unlikely((__pyx_v_key == (PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L3_error)
     __pyx_v_player = values[1];
     __pyx_v_actions = values[2];
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("probe", 1, 3, 3, __pyx_nargs); __PYX_ERR(0, 68, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("probe", 1, 3, 3, __pyx_nargs); __PYX_ERR(0, 72, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3436,17 +3474,17 @@ static PyObject *__pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_tab
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("probe", 0);
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":69
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":73
  * 
  *   def probe(self, long long key, player, actions : Iterator) -> tuple[dict[Any, float], Any] | None:
  *     cdef TTEntry* res = self._probe(key)             # <<<<<<<<<<<<<<
  *     cdef unsigned int i
  * 
 */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_12aima_toolkit_17AdversarialSearch_19transposition_table_TranspositionTable *)__pyx_v_self->__pyx_vtab)->_probe(__pyx_v_self, __pyx_v_key); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_12aima_toolkit_17AdversarialSearch_19transposition_table_TranspositionTable *)__pyx_v_self->__pyx_vtab)->_probe(__pyx_v_self, __pyx_v_key); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
   __pyx_v_res = __pyx_t_1;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":72
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":76
  *     cdef unsigned int i
  * 
  *     if res == NULL:             # <<<<<<<<<<<<<<
@@ -3456,7 +3494,7 @@ static PyObject *__pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_tab
   __pyx_t_2 = (__pyx_v_res == NULL);
   if (__pyx_t_2) {
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":73
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":77
  * 
  *     if res == NULL:
  *       return None             # <<<<<<<<<<<<<<
@@ -3467,7 +3505,7 @@ static PyObject *__pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_tab
     __pyx_r = ((PyObject*)Py_None); __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":72
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":76
  *     cdef unsigned int i
  * 
  *     if res == NULL:             # <<<<<<<<<<<<<<
@@ -3476,19 +3514,19 @@ static PyObject *__pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_tab
 */
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":75
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":79
  *       return None
  * 
  *     move = next(actions)             # <<<<<<<<<<<<<<
  *     for i in range(res.best_move):
  *       move = next( actions )
 */
-  __pyx_t_3 = __Pyx_PyIter_Next(__pyx_v_actions); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyIter_Next(__pyx_v_actions); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_move = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":76
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":80
  * 
  *     move = next(actions)
  *     for i in range(res.best_move):             # <<<<<<<<<<<<<<
@@ -3500,44 +3538,44 @@ static PyObject *__pyx_pf_12aima_toolkit_17AdversarialSearch_19transposition_tab
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
     __pyx_v_i = __pyx_t_6;
 
-    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":77
+    /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":81
  *     move = next(actions)
  *     for i in range(res.best_move):
  *       move = next( actions )             # <<<<<<<<<<<<<<
  * 
  *     return {player : res.score}, move
 */
-    __pyx_t_3 = __Pyx_PyIter_Next(__pyx_v_actions); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyIter_Next(__pyx_v_actions); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF_SET(__pyx_v_move, __pyx_t_3);
     __pyx_t_3 = 0;
   }
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":79
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":83
  *       move = next( actions )
  * 
  *     return {player : res.score}, move             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_res->score); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_res->score); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_v_player, __pyx_t_7) < (0)) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_v_player, __pyx_t_7) < (0)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3) != (0)) __PYX_ERR(0, 79, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3) != (0)) __PYX_ERR(0, 83, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_move);
   __Pyx_GIVEREF(__pyx_v_move);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_move) != (0)) __PYX_ERR(0, 79, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_move) != (0)) __PYX_ERR(0, 83, __pyx_L1_error);
   __pyx_t_3 = 0;
   __pyx_r = ((PyObject*)__pyx_t_7);
   __pyx_t_7 = 0;
   goto __pyx_L0;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":68
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":72
  *     return NULL
  * 
  *   def probe(self, long long key, player, actions : Iterator) -> tuple[dict[Any, float], Any] | None:             # <<<<<<<<<<<<<<
@@ -4354,40 +4392,40 @@ __Pyx_RefNannySetupContext("PyInit_transposition_table", 0);
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":40
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":44
  * 
  *   # Fast C-Python method to store data
  *   cpdef store(self, long long key, unsigned int depth, double score, int flag, int move):             # <<<<<<<<<<<<<<
  *     if self.size == 0:
  *       return
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_5store, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_TranspositionTable_store, NULL, __pyx_mstate_global->__pyx_n_u_aima_toolkit_AdversarialSearch_t, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_5store, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_TranspositionTable_store, NULL, __pyx_mstate_global->__pyx_n_u_aima_toolkit_AdversarialSearch_t, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_12aima_toolkit_17AdversarialSearch_19transposition_table_TranspositionTable, __pyx_mstate_global->__pyx_n_u_store, __pyx_t_2) < (0)) __PYX_ERR(0, 40, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_12aima_toolkit_17AdversarialSearch_19transposition_table_TranspositionTable, __pyx_mstate_global->__pyx_n_u_store, __pyx_t_2) < (0)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":68
+  /* "aima_toolkit/AdversarialSearch/transposition_table.pyx":72
  *     return NULL
  * 
  *   def probe(self, long long key, player, actions : Iterator) -> tuple[dict[Any, float], Any] | None:             # <<<<<<<<<<<<<<
  *     cdef TTEntry* res = self._probe(key)
  *     cdef unsigned int i
 */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_actions, __pyx_mstate_global->__pyx_n_u_Iterator) < (0)) __PYX_ERR(0, 68, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_return, __pyx_mstate_global->__pyx_kp_u_tuple_dict_Any_float_Any_None) < (0)) __PYX_ERR(0, 68, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_7probe, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_TranspositionTable_probe, NULL, __pyx_mstate_global->__pyx_n_u_aima_toolkit_AdversarialSearch_t, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_actions, __pyx_mstate_global->__pyx_n_u_Iterator) < (0)) __PYX_ERR(0, 72, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_return, __pyx_mstate_global->__pyx_kp_u_tuple_dict_Any_float_Any_None) < (0)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_12aima_toolkit_17AdversarialSearch_19transposition_table_18TranspositionTable_7probe, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_TranspositionTable_probe, NULL, __pyx_mstate_global->__pyx_n_u_aima_toolkit_AdversarialSearch_t, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
   #endif
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_12aima_toolkit_17AdversarialSearch_19transposition_table_TranspositionTable, __pyx_mstate_global->__pyx_n_u_probe, __pyx_t_4) < (0)) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_12aima_toolkit_17AdversarialSearch_19transposition_table_TranspositionTable, __pyx_mstate_global->__pyx_n_u_probe, __pyx_t_4) < (0)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "(tree fragment)":1
@@ -4587,12 +4625,12 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {6, 0, 0, 6, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 40};
+    const __Pyx_PyCode_New_function_description descr = {6, 0, 0, 6, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 44};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_key, __pyx_mstate->__pyx_n_u_depth, __pyx_mstate->__pyx_n_u_score, __pyx_mstate->__pyx_n_u_flag, __pyx_mstate->__pyx_n_u_move};
     __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_src_aima_toolkit_AdversarialSear, __pyx_mstate->__pyx_n_u_store, __pyx_mstate->__pyx_kp_b_iso88591_t6_A_D_a_1D_b_uE_Bc_s_q_7_9A_9A, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {4, 0, 0, 7, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 68};
+    const __Pyx_PyCode_New_function_description descr = {4, 0, 0, 7, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 72};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_key, __pyx_mstate->__pyx_n_u_player, __pyx_mstate->__pyx_n_u_actions, __pyx_mstate->__pyx_n_u_res, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_move};
     __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_src_aima_toolkit_AdversarialSear, __pyx_mstate->__pyx_n_u_probe, __pyx_mstate->__pyx_kp_b_iso88591_3_G1A_t3a_Q_4q_U_3a_T_1_1IS, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
