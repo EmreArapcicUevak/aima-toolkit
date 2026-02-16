@@ -29,9 +29,13 @@ class Game[StateT, MoveT, PlayerT](ABC):
         Type representing a player identifier.
   """
 
-  def __init__(self, *, sum : float = math.inf, transposition_table_size_mb : int = 0) -> None:
+  def __init__(self, *, sum : float = math.inf, margin : float = math.inf, transposition_table_size_mb : int = 0) -> None:
     assert transposition_table_size_mb >= 0
-    self.sum = sum
+    assert margin >= 0
+    assert sum >= 0
+
+    self.sum : float = sum
+    self.margin : float = margin
     self.transposition_table : TranspositionTable = TranspositionTable(transposition_table_size_mb)
 
   @abstractmethod

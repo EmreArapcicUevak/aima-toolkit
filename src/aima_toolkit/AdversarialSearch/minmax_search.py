@@ -7,12 +7,12 @@ from .Game import Game
 import math
 import numpy as np
 
-def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT , * , margin : float = math.inf, singularity_ply : int = 1) -> tuple[dict[PlayerT, float], MoveT | None]:
+def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT , * , singularity_ply : int = 1) -> tuple[dict[PlayerT, float], MoveT | None]:
   assert singularity_ply >= 1
 
-  return _search(game, state, depth=0, margin=margin, singularity_ply=singularity_ply,  bound=game.sum)
+  return _search(game, state, depth=0, singularity_ply=singularity_ply,  bound=game.sum)
 
-def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int , margin : float, singularity_ply : int, bound : float) -> tuple[dict[PlayerT, float], MoveT | None]:
+def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int, singularity_ply : int, bound : float) -> tuple[dict[PlayerT, float], MoveT | None]:
   if game.IS_CUTOFF(state, depth): return _quiescence_search(game, state), None
 
   actions, state_hash = iter(game.ACTIONS(state)), hash(state)
@@ -26,7 +26,7 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
   assert best_move is not None
   next_state = game.RESULTS(state, best_move)
 
-  best_score, _  = _search(game, next_state, depth=depth+1, margin=margin, singularity_ply=singularity_ply, bound=game.sum)
+  best_score, _  = _search(game, next_state, depth=depth+1, singularity_ply=singularity_ply, bound=game.sum)
   best_node_is_cutoff = False
 
   scores = np.array([])
@@ -37,7 +37,7 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
       return best_score, best_move
 
     result_state = game.RESULTS(state, action)
-    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply, margin=margin, bound=game.sum-best_score[current_player])
+    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply, bound=game.sum-best_score[current_player])
 
     scores = np.append(scores, new_score[current_player])
     if new_score[current_player] > best_score[current_player]:
@@ -49,7 +49,7 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
   singularity_state = game.RESULTS( state, best_move )
 
   scores_delta = best_score[current_player] - scores
-  num_of_neighbors = (scores_delta <= margin).sum() - 1
+  num_of_neighbors = (scores_delta <= game.margin).sum() - 1
 
   if best_node_is_cutoff == False or num_of_neighbors != 0: # No Singularity at the cutoff node
     game.transposition_table.store(key=state_hash, depth=depth, score=best_score[current_player], flag=0, move=best_move_idx)
