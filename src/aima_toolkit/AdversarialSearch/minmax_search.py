@@ -15,7 +15,7 @@ def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], st
 def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int, singularity_ply : int, bound : float) -> tuple[dict[PlayerT, float], MoveT | None]:
   if game.IS_CUTOFF(state, depth): return _quiescence_search(game, state), None
 
-  actions, state_hash = iter(game.ACTIONS(state)), hash(state)
+  actions, state_hash = game.ACTIONS(state), hash(state)
   current_player : PlayerT = game.TO_MOVE(state)
 
   tt_result = game.transposition_table.probe(key=state_hash, player=current_player, actions=actions)

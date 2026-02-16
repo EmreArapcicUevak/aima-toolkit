@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 from collections.abc import Iterable
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Iterator
 import math
 
 from .transposition_table import TranspositionTable
@@ -56,7 +56,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     raise NotImplementedError( "This method should be overridden by subclasses" )
 
   @abstractmethod
-  def ACTIONS(self, state : StateT) -> Iterable[MoveT]:
+  def ACTIONS(self, state : StateT) -> Iterator[MoveT]:
     """
     Return all legal actions available in the given state.
 
@@ -72,7 +72,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     """
     raise NotImplementedError( "This method should be overridden by subclasses" )
 
-  def QUIESCENCE_ACTIONS(self, state : StateT) -> Iterable[MoveT]:
+  def QUIESCENCE_ACTIONS(self, state : StateT) -> Iterator[MoveT]:
     """
     Return all legal actions available in the given state that should be
     considered during quiescence search.
@@ -91,7 +91,7 @@ class Game[StateT, MoveT, PlayerT](ABC):
     Iterable[MoveT]
         An iterable of legal quiescence moves.
     """
-    return []
+    return iter([])
 
 
   @abstractmethod
