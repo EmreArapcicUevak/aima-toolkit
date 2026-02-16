@@ -1,11 +1,16 @@
+from tarfile import NUL
+
+from docutils.nodes import entry
 from libc.stdlib cimport malloc, free
 from libc.string cimport memset
+from typing import Any, Iterator
+
 
 # 1. Define the entry as a C struct (16 bytes typically)
 cdef struct TTEntry:
-    unsigned long long key  # The full Zobrist hash (to verify identity)
-    float score               # The evaluation score
-    int depth               # How deep we searched
+    long long key  # The full Zobrist hash (to verify identity)
+    double score               # The evaluation score
+    unsigned int depth               # How deep we searched
     int flags               # Exact, Lowerbound, or Upperbound
     int best_move           # The best move found (encoded as int)
 
@@ -13,7 +18,7 @@ cdef class TranspositionTable:
   cdef TTEntry * table
   cdef unsigned long long size
 
-  def __cinit__(self, size_in_mb):
+  def __cinit__(self, unsigned int size_in_mb):
     # Calculate number of entries that fit in size_in_mb
     cdef size_t entry_size = sizeof(TTEntry)
     self.size = (size_in_mb * 1024 * 1024) // entry_size
@@ -31,8 +36,11 @@ cdef class TranspositionTable:
     if self.table:
       free( self.table )
 
-  # Fast C-only method to store data
-  cdef void store(self, unsigned long long key, int depth, int score, int flag, int move):
+  # Fast C-Python method to store data
+  cpdef store(self, long long key, unsigned int depth, double score, int flag, int move):
+    if self.size == 0:
+      return
+
     cdef unsigned long long index = key % self.size
     cdef TTEntry * entry = &self.table[ index ]
 
@@ -46,10 +54,26 @@ cdef class TranspositionTable:
       entry.best_move = move
 
   # Fast C-only method to retrieve data
-  cdef TTEntry * probe(self, unsigned long long key):
+  cdef TTEntry* _probe(self, unsigned long long key) :
+    if self.size == 0:
+      return NULL
+
     cdef unsigned long long index = key % self.size
     cdef TTEntry * entry = &self.table[ index ]
 
     if entry.key == key:
       return entry
     return NULL
+
+  def probe(self, long long key, player, actions : Iterator) -> tuple[dict[Any, float], Any] | None:
+    cdef TTEntry* res = self._probe(key)
+    cdef unsigned int i
+
+    if res == NULL:
+      return None
+
+    move = next(actions)
+    for i in range(res.best_move):
+      move = next( actions )
+
+    return {player : res.score}, move
