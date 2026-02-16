@@ -3,6 +3,7 @@ from logging import getHandlerNames
 import numpy
 
 from .Game import Game
+
 import math
 import numpy as np
 
@@ -14,11 +15,14 @@ def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], st
 def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int , margin : float, singularity_ply : int, bound : float) -> tuple[dict[PlayerT, float], MoveT | None]:
   if game.IS_CUTOFF(state, depth): return _quiescence_search(game, state), None
 
+  actions, state_hash = iter(game.ACTIONS(state)), hash(state)
   current_player : PlayerT = game.TO_MOVE(state)
 
-  actions = iter(game.ACTIONS(state))
-  best_move = next(actions, None)
+  tt_result = game.transposition_table.probe(key=state_hash, player=current_player, actions=actions)
+  if tt_result is not None:
+    return tt_result
 
+  best_move, best_move_idx = next(actions, None), 0
   assert best_move is not None
   next_state = game.RESULTS(state, best_move)
 
@@ -27,8 +31,9 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
 
   scores = np.array([])
 
-  for action in actions:
+  for move_idx, action in enumerate(actions):
     if best_score[current_player] >= bound: # Shallow pruning
+      game.transposition_table.store( key=state_hash, depth=depth, score=best_score[ current_player ], flag=1, move=move_idx + 1 )
       return best_score, best_move
 
     result_state = game.RESULTS(state, action)
@@ -38,6 +43,7 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
     if new_score[current_player] > best_score[current_player]:
       best_score = new_score
       best_move = action
+      best_move_idx = move_idx + 1
       best_node_is_cutoff = game.IS_CUTOFF(state, depth=depth+1)
 
   singularity_state = game.RESULTS( state, best_move )
@@ -46,9 +52,11 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
   num_of_neighbors = (scores_delta <= margin).sum() - 1
 
   if best_node_is_cutoff == False or num_of_neighbors != 0: # No Singularity at the cutoff node
+    game.transposition_table.store(key=state_hash, depth=depth, score=best_score[current_player], flag=0, move=best_move_idx)
     return best_score, best_move
 
   extended_score, _ = _ply_search(game, singularity_state, ply=singularity_ply) # get the new score and action
+  game.transposition_table.store( key=state_hash, depth=depth, score=best_score[ current_player ], flag=2, move=best_move_idx)
 
   return extended_score, best_move
 
