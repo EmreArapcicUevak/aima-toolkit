@@ -1,5 +1,7 @@
 from __future__ import annotations
 from typing import Iterator
+from collections import Counter
+import math
 
 from .. import Game
 
@@ -49,9 +51,20 @@ class Chess(Game):
       Win = 2, Loss = 0, Draw = 1.
     """
 
-    def __init__(self, depth_limit: int):
-        super().__init__(sum=2)
+    def __init__(self, depth_limit: int, tt_memory_mb: int, horizon_margin : float = 0.2, scale : float = 10.0):
+        super().__init__(sum=2, transposition_table_size_mb=tt_memory_mb, margin=horizon_margin)
         self.depth_limit = depth_limit
+        # Insufficient material cases
+        self.insufficient = (
+            ({ 'K': 1 }, { 'k': 1 }),  # K vs K
+            ({ 'K': 1, 'B': 1 }, { 'k': 1 }),  # K+B vs K
+            ({ 'K': 1, 'N': 1 }, { 'k': 1 }),  # K+N vs K
+            ({ 'K': 1 }, { 'k': 1, 'b': 1 }),  # K vs K+B
+            ({ 'K': 1 }, { 'k': 1, 'n': 1 }),  # K vs K+N
+        )
+
+        self.is_in_early_draw = False
+        self.scale = scale
 
     # ----------------------------
     # BASIC HELPERS
@@ -100,8 +113,8 @@ class Chess(Game):
     # ----------------------------
     # INITIAL STATE
     # ----------------------------
-
-    def INITIAL_STATE(self) -> StateT:
+    @staticmethod
+    def INITIAL_STATE() -> StateT:
         board = [
             'r','n','b','q','k','b','n','r',
             'p','p','p','p','p','p','p','p',
@@ -121,10 +134,6 @@ class Chess(Game):
 
     def ACTIONS(self, state: StateT) -> Iterator[MoveT]:
         board, player, castling, ep = state
-
-        # If terminal, no moves.
-        if self.IS_TERMINAL(state):
-            return iter(())
 
         # Generate pseudo-legal moves, then filter legality.
         for mv in self._pseudo_legal_moves(state):
@@ -305,21 +314,21 @@ class Chess(Game):
 
         if player == 0:
             # White king starts at e1 = index 60
-            if i == 60:
+            if i == 60 and not self._square_attacked(board, i, attacker=1):
                 # Kingside: e1 -> g1 (60 -> 62)
-                if wk and board[61] == ' ' and board[62] == ' ':
+                if wk and board[61] == ' ' and board[62] == ' ' and board[63] == 'R' and not self._square_attacked(board, 61, attacker=1) and not self._square_attacked(board, 62, attacker=1):
                     yield "60-62"
                 # Queenside: e1 -> c1 (60 -> 58)
-                if wq and board[59] == ' ' and board[58] == ' ' and board[57] == ' ':
+                if wq and board[59] == ' ' and board[58] == ' ' and board[57] == ' ' and board[56] == 'R' and not self._square_attacked(board, 59, attacker=1) and not self._square_attacked(board, 58, attacker=1):
                     yield "60-58"
         else:
             # Black king starts at e8 = index 4
-            if i == 4:
+            if i == 4 and not self._square_attacked(board, i, attacker=0):
                 # Kingside: e8 -> g8 (4 -> 6)
-                if bk and board[5] == ' ' and board[6] == ' ':
+                if bk and board[5] == ' ' and board[6] == ' ' and board[7] == 'r' and not self._square_attacked(board, 5,  attacker=0) and not self._square_attacked(board, 6, attacker=0):
                     yield "4-6"
                 # Queenside: e8 -> c8 (4 -> 2)
-                if bq and board[3] == ' ' and board[2] == ' ' and board[1] == ' ':
+                if bq and board[3] == ' ' and board[2] == ' ' and board[1] == ' ' and board[0] == 'r' and not self._square_attacked(board, 3, attacker=0) and not self._square_attacked(board, 2, attacker=0):
                     yield "4-2"
 
     # ----------------------------
@@ -385,19 +394,27 @@ class Chess(Game):
 
             # white king side: 60->62 rook 63->61
             if frm == 60 and to == 62:
+                assert new_board[63] == 'R', "Illegal castle"
+
                 new_board[63] = ' '
                 new_board[61] = 'R'
             # white queen side: 60->58 rook 56->59
             elif frm == 60 and to == 58:
+                assert new_board[56] == 'R', "Illegal castle"
+
                 new_board[56] = ' '
                 new_board[59] = 'R'
 
             # black king side: 4->6 rook 7->5
             elif frm == 4 and to == 6:
+                assert new_board[7] == 'r', "Illegal castle"
+
                 new_board[7] = ' '
                 new_board[5] = 'r'
             # black queen side: 4->2 rook 0->3
             elif frm == 4 and to == 2:
+                assert new_board[0] == 'r', "Illegal castle"
+
                 new_board[0] = ' '
                 new_board[3] = 'r'
 
@@ -515,13 +532,21 @@ class Chess(Game):
     def IS_TERMINAL(self, state: StateT) -> bool:
         board, player, castling, ep = state
 
-        # If player has no legal moves
-        has_move = False
-        for _ in self.ACTIONS(state):
-            has_move = True
-            break
+        # Material count (ignore empty squares)
+        counts = Counter( p for p in board if p != ' ' )
 
-        if has_move:
+        # Extract piece-sets for each side
+        white = { p: counts[ p ] for p in counts if p.isupper( ) }
+        black = { p: counts[ p ] for p in counts if p.islower( ) }
+
+        if (white, black) in self.insufficient:
+            self.is_in_early_draw = True
+            return True
+
+        self.is_in_early_draw = False
+
+        # If player has no legal moves
+        for _ in self.ACTIONS(state):
             return False
 
         # No moves: either checkmate or stalemate
@@ -530,11 +555,14 @@ class Chess(Game):
     def UTILITY(self, state: StateT) -> dict[PlayerT, float]:
         board, player, castling, ep = state
 
-        # player is the side to move (and has no moves if terminal)
-        in_check = self._in_check(state, player)
 
         if not self.IS_TERMINAL(state):
             raise ValueError("UTILITY called on non-terminal state")
+        elif self.is_in_early_draw:
+            return {0 : 1, 1 : 1} # The game is in a state where checking is impossible
+
+        # player is the side to move (and has no moves if terminal)
+        in_check = self._in_check(state, player)
 
         if in_check:
             # checkmate: current player loses
@@ -587,8 +615,7 @@ class Chess(Game):
         # Normalize into your [0,2] style:
         # baseline 1, advantage shifts toward 2.
         diff = white - black
-        normalized = max(-1.0, min(1.0, diff / 20.0))
-
+        normalized = math.tanh(diff / self.scale)
         return {0: 1 + normalized, 1: 1 - normalized}
 
     # ----------------------------
@@ -597,4 +624,4 @@ class Chess(Game):
 
     def IS_CUTOFF(self, state: StateT, depth: int) -> bool:
         assert depth >= 0
-        return self.IS_TERMINAL(state) or depth >= self.depth_limit
+        return depth >= self.depth_limit or self.IS_TERMINAL(state)
