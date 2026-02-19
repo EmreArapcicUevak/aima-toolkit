@@ -1,8 +1,9 @@
 [build-system]
 requires = [
-  "setuptools>=64",
+  "setuptools>=82.0.0",
   "wheel",
   "setuptools-scm>=8",
+  "cython>=3.2.0"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -29,7 +30,8 @@ Issues = "https://github.com/EmreArapcicUevak/aima-toolkit/issues"
 dev = [
   "pytest>=9.0.2",
   "pytest-repeat",
-  "pytest-timer[termcolor]"
+  "pytest-timer[termcolor]",
+  "build"
 ]
 
 [tool.pytest]

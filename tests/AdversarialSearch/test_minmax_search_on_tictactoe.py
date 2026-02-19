@@ -41,7 +41,9 @@ def test_minmax_perfect_play_draw(ttt_game):
   state = (board, 'X')
 
   # We use a lower singularity_ply or specific margin if your implementation requires
-  values, move = minmax_search( ttt_game, state, margin=0.1, singularity_ply=1 )
+  ttt_game.margin = 0.1
+  values, move = minmax_search( ttt_game, state, singularity_ply=1 )
+
 
   assert values[ 'X' ] == 1
   assert values[ 'O' ] == 1

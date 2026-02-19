@@ -1,2 +1,3 @@
 from .TicTacToe import TicTacToe
 from .Breakthrough import Breakthrough
+from .Chess import Chess

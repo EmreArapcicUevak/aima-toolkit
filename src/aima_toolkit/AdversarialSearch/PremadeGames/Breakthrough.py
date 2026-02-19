@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Iterator
 import copy
 
 from .. import Game
@@ -41,7 +41,7 @@ class Breakthrough(Game):
   def TO_MOVE(self, state: StateT) -> PlayerT:
     return state[1]
 
-  def ACTIONS(self, state: StateT) -> Iterable[ MoveT ]:
+  def ACTIONS(self, state: StateT) -> Iterator[ MoveT ]:
     if self.IS_TERMINAL(state):
       return []
 
@@ -64,7 +64,7 @@ class Breakthrough(Game):
         if position not in right_wall and board[position + right_shift] != player_symbol:
           yield f"{position}-{position + right_shift}"
 
-  def QUIESCENCE_ACTIONS(self, state: StateT) -> Iterable[ MoveT ]:
+  def QUIESCENCE_ACTIONS(self, state: StateT) -> Iterator[ MoveT ]:
     if self.IS_TERMINAL( state ):
       return [ ]
 

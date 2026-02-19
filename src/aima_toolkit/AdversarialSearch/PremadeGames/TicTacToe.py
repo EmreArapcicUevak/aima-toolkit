@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterator
 
 from .. import Game
 
@@ -65,9 +65,9 @@ class TicTacToe(Game):
   def TO_MOVE(self, state: tuple[tuple,str]) -> str:
     return state[1]
 
-  def ACTIONS(self, state: tuple[tuple,str]) -> Iterable[ int ]:
+  def ACTIONS(self, state: tuple[tuple,str]) -> Iterator[ int ]:
     board, _ = state
-    return [i for i in range(9) if board[i] == ' ']
+    return (i for i in range(9) if board[i] == ' ')
 
   def RESULTS(self, state: tuple[tuple,str], action: int) -> tuple[tuple,str]:
     board, current_player = state
