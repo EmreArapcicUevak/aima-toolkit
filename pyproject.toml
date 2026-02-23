@@ -8,6 +8,10 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
+dependencies = [
+  "numpy>=2.4.0",
+  "docutils"
+]
 name = "aima_toolkit"
 authors = [
   { name = "Emre Arapcic-Uevak", email = "emrearapcicuevak@gmail.com" },
