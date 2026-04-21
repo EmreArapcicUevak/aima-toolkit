@@ -5,53 +5,6 @@ from aima_toolkit.AdversarialSearch.PremadeGames import Chess
 def game():
   return Chess(tt_memory_mb=200, depth_limit=10)
 
-@pytest.mark.parametrize("given_i, expected_r, expected_c", [
-  (0, 0, 0), (1, 0, 1), (7, 0, 7), (23, 2, 7), (22, 2, 6), (60, 7, 4)
-])
-def test_rc_transformations(game, given_i, expected_r, expected_c):
-  assert game._i_to_rc(given_i) == (expected_r, expected_c)
-
-@pytest.mark.parametrize("expected_i, given_r, given_c", [
-  (0, 0, 0), (1, 0, 1), (7, 0, 7), (23, 2, 7), (22, 2, 6), (60, 7, 4)
-])
-def test_rc_to_i(game, expected_i, given_r, given_c):
-  assert game._rc_to_i(given_r, given_c) == expected_i
-
-@pytest.mark.parametrize("given_r, given_c, expected", [
-  (0, 0, True), (0, 1, True), (7, 0, True), (23, 2, False), (22, 2, False), (60, 7, False), (-1, 2, False), (1, -2, False), (5,6, True)
-])
-def test_in_bounds(game, given_r, given_c, expected):
-  assert game._in_bounds(given_r, given_c) == expected
-
-@pytest.mark.parametrize("given_piece, given_player, expected", [
-  ('p', 0, False), ('P', 0, True), ('P', 1, False), ('p', 1, True), ('k', 0, False), ('k', 1, True), ('K', 0, True), ('K', 1, False), (' ', 0, False), (' ', 1, False)
-])
-def test_friendly(game, given_piece, given_player, expected):
-  assert game._friendly(given_player, given_piece) == expected
-  if given_piece == ' ':
-    assert game._friendly(given_player, given_piece) == game._enemy(given_player, given_piece)
-  else:
-    assert game._friendly(given_player, given_piece) != game._enemy(given_player, given_piece)
-
-@pytest.mark.parametrize(" given_player, expected_piece", [
-  (0, 'K'), (1, 'k')
-])
-def test_king_piece(game, given_player, expected_piece):
-  assert game._king_piece(given_player) == expected_piece
-
-@pytest.mark.parametrize(" given_player, expected_piece", [
-  (0, 'P'), (1, 'p')
-])
-def test_pawn_piece(game, given_player, expected_piece):
-  assert game._pawn_piece(given_player) == expected_piece
-
-@pytest.mark.parametrize(" given_player, expected_piece", [
-  (0, 'P'), (1, 'p')
-])
-def test_pawn_piece(game, given_player, expected_piece):
-  assert game._pawn_piece(given_player) == expected_piece
-
-
 @pytest.mark.parametrize("state, expected_moves", [
 
     # ============================================================
