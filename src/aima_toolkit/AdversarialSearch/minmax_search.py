@@ -8,13 +8,14 @@ import math
 import numpy as np
 from typing import Iterator
 
-def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT , * , singularity_ply : int = 1) -> tuple[dict[PlayerT, float], MoveT | None]:
+def minmax_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT , * , singularity_ply : int = 1, quiescence_search_limit : int = -1) -> tuple[dict[PlayerT, float], MoveT | None]:
   assert singularity_ply >= 1
+  assert quiescence_search_limit >= 1 or quiescence_search_limit == -1
 
-  return _search(game, state, depth=0, singularity_ply=singularity_ply,  bound=game.sum)
+  return _search(game, state, depth=0, singularity_ply=singularity_ply,  bound=game.sum, quiescence_search_limit=quiescence_search_limit)
 
-def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int, singularity_ply : int, bound : float) -> tuple[dict[PlayerT, float], MoveT | None]:
-  if game.IS_CUTOFF(state, depth): return _quiescence_search(game, state, bound=game.sum), None
+def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, * , depth : int, singularity_ply : int, bound : float, quiescence_search_limit : int) -> tuple[dict[PlayerT, float], MoveT | None]:
+  if game.IS_CUTOFF(state, depth): return _quiescence_search(game, state, bound=bound, depth_limit = quiescence_search_limit), None
 
   actions, state_hash = game.ACTIONS(state), hash(state)
   current_player : PlayerT = game.TO_MOVE(state)
@@ -27,7 +28,7 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
   assert best_move is not None
   next_state = game.RESULTS(state, best_move)
 
-  best_score, _  = _search(game, next_state, depth=depth+1, singularity_ply=singularity_ply, bound=game.sum)
+  best_score, _  = _search(game, next_state, depth=depth+1, singularity_ply=singularity_ply, bound=bound, quiescence_search_limit=quiescence_search_limit)
   best_node_is_cutoff = False
 
   scores = np.array([best_score[current_player]])
@@ -38,7 +39,7 @@ def _search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : 
       return best_score, best_move
 
     result_state = game.RESULTS(state, action)
-    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply, bound=game.sum-best_score[current_player])
+    new_score, _ = _search(game, result_state, depth=depth+1, singularity_ply=singularity_ply, bound=game.sum-best_score[current_player], quiescence_search_limit=quiescence_search_limit)
 
     scores = np.append(scores, new_score[current_player])
     if new_score[current_player] > best_score[current_player]:
@@ -79,8 +80,8 @@ def _ply_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], stat
 
   return best_score, best_move
 
-def _quiescence_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, bound : float) -> dict[PlayerT, float]:
-  if game.IS_TERMINAL(state): return game.EVAL(state)
+def _quiescence_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT], state : StateT, bound : float, depth_limit : int) -> dict[PlayerT, float]:
+  if game.IS_TERMINAL(state) or depth_limit == 0: return game.EVAL(state)
 
   actions, state_hash = game.QUIESCENCE_ACTIONS(state), hash(state)
   current_player : PlayerT = game.TO_MOVE(state)
@@ -94,14 +95,16 @@ def _quiescence_search[StateT,MoveT, PlayerT](game : Game[StateT, MoveT, PlayerT
     return game.EVAL(state)
 
   next_state = game.RESULTS(state, first_move)
-  best_score = _quiescence_search(game, next_state, game.sum)
+  next_depth = depth_limit - 1 if depth_limit != -1 else depth_limit
+
+  best_score = _quiescence_search(game, next_state, game.sum, next_depth)
 
   for action in actions:
     if best_score[current_player] >= bound: # Shallow pruning
       return best_score
 
     result_state = game.RESULTS(state, action)
-    new_score  = _quiescence_search(game, result_state, game.sum - best_score[current_player])
+    new_score  = _quiescence_search(game, result_state, game.sum - best_score[current_player], next_depth)
 
     if new_score[current_player] > best_score[current_player]:
       best_score = new_score
